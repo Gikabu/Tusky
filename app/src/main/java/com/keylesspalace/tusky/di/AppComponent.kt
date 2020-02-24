@@ -42,10 +42,10 @@ interface AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(tuskyApp: TuskyApplication): Builder
+        fun application(tuskyApp: com.keylesspalace.tusky.TuskyApplication): Builder
 
         fun build(): AppComponent
     }
 
-    fun inject(app: TuskyApplication)
+    fun inject(app: com.keylesspalace.tusky.TuskyApplication)
 }

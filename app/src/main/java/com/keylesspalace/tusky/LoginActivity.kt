@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
@@ -45,7 +44,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class LoginActivity : BaseActivity(), Injectable {
+class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -162,6 +161,11 @@ class LoginActivity : BaseActivity(), Injectable {
                         .putString("clientId", clientId)
                         .putString("clientSecret", clientSecret)
                         .apply()
+
+                Log.i("Gikabu Domain",domain)
+                Log.i("Gikabu ClientID",clientId)
+                Log.i("Gikabu ClientSecret",clientSecret)
+
 
                 redirectUserToAuthorizeAndLogin(domain, clientId)
             }
@@ -289,9 +293,11 @@ class LoginActivity : BaseActivity(), Injectable {
 
         setLoading(true)
 
+        Log.i("Gikabu Access Token", accessToken)
+
         accountManager.addAccount(accessToken, domain)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, com.keylesspalace.tusky.MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
@@ -345,13 +351,13 @@ class LoginActivity : BaseActivity(), Injectable {
 
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
 
-            val toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface)
+            val toolbarColor = com.keylesspalace.tusky.util.ThemeUtils.getColor(context, R.attr.colorSurface)
             val customTabsIntentBuilder = CustomTabsIntent.Builder()
                     .setToolbarColor(toolbarColor)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                 customTabsIntentBuilder.setNavigationBarColor(
-                        ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
+                        com.keylesspalace.tusky.util.ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
                 )
             }
 

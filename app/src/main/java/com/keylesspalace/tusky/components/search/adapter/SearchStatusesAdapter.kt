@@ -21,40 +21,37 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.viewdata.StatusViewData
 
 class SearchStatusesAdapter(
         private val statusDisplayOptions: StatusDisplayOptions,
-        private val statusListener: StatusActionListener
-) : PagedListAdapter<Pair<Status, StatusViewData.Concrete>, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
+        private val statusListener: com.keylesspalace.tusky.interfaces.StatusActionListener
+) : PagedListAdapter<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_status, parent, false)
-        return StatusViewHolder(view)
+        return com.keylesspalace.tusky.adapter.StatusViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            (holder as StatusViewHolder).setupWithStatus(item.second, statusListener, statusDisplayOptions)
+            (holder as com.keylesspalace.tusky.adapter.StatusViewHolder).setupWithStatus(item.second, statusListener, statusDisplayOptions)
         }
     }
 
-    public override fun getItem(position: Int): Pair<Status, StatusViewData.Concrete>? {
+    public override fun getItem(position: Int): Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>? {
         return super.getItem(position)
     }
 
     companion object {
 
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Pair<Status, StatusViewData.Concrete>>() {
-            override fun areContentsTheSame(oldItem: Pair<Status, StatusViewData.Concrete>, newItem: Pair<Status, StatusViewData.Concrete>): Boolean =
+        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>() {
+            override fun areContentsTheSame(oldItem: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, newItem: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>): Boolean =
                     oldItem.second.deepEquals(newItem.second)
 
-            override fun areItemsTheSame(oldItem: Pair<Status, StatusViewData.Concrete>, newItem: Pair<Status, StatusViewData.Concrete>): Boolean =
+            override fun areItemsTheSame(oldItem: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, newItem: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>): Boolean =
                     oldItem.second.id == newItem.second.id
         }
 

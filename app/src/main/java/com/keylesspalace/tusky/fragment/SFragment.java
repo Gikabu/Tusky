@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.PostLookupFallbackBehavior;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
-import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import com.keylesspalace.tusky.components.report.ReportActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -60,6 +59,8 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -157,7 +158,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             mentionedUsernames.add(mention.getUsername());
         }
         mentionedUsernames.remove(loggedInUsername);
-        ComposeOptions composeOptions = new ComposeOptions();
+        ComposeActivity.ComposeOptions composeOptions = new ComposeActivity.ComposeOptions();
         composeOptions.setInReplyToId(inReplyToId);
         composeOptions.setReplyVisibility(replyVisibility);
         composeOptions.setContentWarning(contentWarning);
@@ -252,7 +253,9 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 case R.id.status_share_link: {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
+                    String statusBody = StringUtils.substringAfter(statusUrl,"://");
+                    String copiedLink = "https://smoke.chat/" + statusBody;
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, copiedLink);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
                     return true;
@@ -260,7 +263,9 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 case R.id.status_copy_link: {
                     ClipboardManager clipboard = (ClipboardManager)
                             getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText(null, statusUrl);
+                    String statusBody = StringUtils.substringAfter(statusUrl,"://");
+                    String copiedLink = "https://smoke.chat/" + statusBody;
+                    ClipData clip = ClipData.newPlainText(null, copiedLink);
                     clipboard.setPrimaryClip(clip);
                     return true;
                 }
@@ -389,7 +394,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                                         if (deletedStatus.isEmpty()) {
                                             deletedStatus = status.toDeletedStatus();
                                         }
-                                        ComposeOptions composeOptions = new ComposeOptions();
+                                        ComposeActivity.ComposeOptions composeOptions = new ComposeActivity.ComposeOptions();
                                         composeOptions.setTootText(deletedStatus.getText());
                                         composeOptions.setInReplyToId(deletedStatus.getInReplyToId());
                                         composeOptions.setVisibility(deletedStatus.getVisibility());

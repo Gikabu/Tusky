@@ -22,7 +22,7 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class FiltersActivity: BaseActivity() {
+class FiltersActivity: com.keylesspalace.tusky.BaseActivity() {
     @Inject
     lateinit var api: MastodonApi
 

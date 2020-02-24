@@ -25,7 +25,7 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class AccountListActivity : BaseActivity(), HasAndroidInjector {
+class AccountListActivity : com.keylesspalace.tusky.BaseActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>

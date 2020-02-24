@@ -33,7 +33,7 @@ import android.util.TypedValue;
  */
 public class ThemeUtils {
 
-    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
+    public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_DAY;
 
     private static final String THEME_NIGHT = "night";
     private static final String THEME_DAY = "day";

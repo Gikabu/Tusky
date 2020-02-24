@@ -304,15 +304,15 @@ public class NotificationHelper {
     }
 
     private static PendingIntent getStatusReplyIntent(String action, Context context, Notification body, AccountEntity account) {
-        Status status = body.getStatus();
+        com.keylesspalace.tusky.entity.Status status = body.getStatus();
 
         String citedLocalAuthor = status.getAccount().getLocalUsername();
         String citedText = status.getContent().toString();
         String inReplyToId = status.getId();
-        Status actionableStatus = status.getActionableStatus();
-        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        com.keylesspalace.tusky.entity.Status actionableStatus = status.getActionableStatus();
+        com.keylesspalace.tusky.entity.Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
-        Status.Mention[] mentions = actionableStatus.getMentions();
+        com.keylesspalace.tusky.entity.Status.Mention[] mentions = actionableStatus.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {

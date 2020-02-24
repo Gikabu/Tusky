@@ -23,10 +23,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.json.SpannedTypeAdapter
-import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.OkHttpUtils
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.ClassKey
@@ -50,7 +47,7 @@ class NetworkModule {
     @Provides
     @IntoMap
     @ClassKey(Spanned::class)
-    fun providesSpannedTypeAdapter(): JsonDeserializer<*> = SpannedTypeAdapter()
+    fun providesSpannedTypeAdapter(): JsonDeserializer<*> = com.keylesspalace.tusky.json.SpannedTypeAdapter()
 
     @Provides
     @Singleton
@@ -73,9 +70,9 @@ class NetworkModule {
     @Singleton
     fun providesHttpClient(accountManager: AccountManager,
                            context: Context): OkHttpClient {
-        return OkHttpUtils.getCompatibleClientBuilder(context)
+        return com.keylesspalace.tusky.util.OkHttpUtils.getCompatibleClientBuilder(context)
                 .apply {
-                    addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
+                    addInterceptor(com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor(accountManager))
                     if (BuildConfig.DEBUG) {
                         addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
                     }

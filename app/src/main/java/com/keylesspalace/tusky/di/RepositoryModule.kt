@@ -13,7 +13,7 @@ import dagger.Provides
 @Module
 class RepositoryModule {
     @Provides
-    fun providesTimelineRepository(db: AppDatabase, mastodonApi: MastodonApi,
+    fun providesTimelineRepository(db: com.keylesspalace.tusky.db.AppDatabase, mastodonApi: MastodonApi,
                                    accountManager: AccountManager, gson: Gson,
                                    htmlConverter: HtmlConverter): TimelineRepository {
         return TimelineRepositoryImpl(db.timelineDao(), mastodonApi, accountManager, gson,

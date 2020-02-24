@@ -20,7 +20,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
@@ -38,13 +37,13 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.preferences)
 
         val themePreference: Preference = requirePreference("appTheme")
-        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference.context, R.attr.iconColor))
+        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(com.keylesspalace.tusky.util.ThemeUtils.getColor(themePreference.context, R.attr.iconColor))
 
         val emojiPreference: Preference = requirePreference("emojiCompat")
-        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference.context, R.attr.iconColor))
+        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(com.keylesspalace.tusky.util.ThemeUtils.getColor(emojiPreference.context, R.attr.iconColor))
 
         val textSizePreference: Preference = requirePreference("statusTextSize")
-        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference.context, R.attr.iconColor))
+        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(com.keylesspalace.tusky.util.ThemeUtils.getColor(textSizePreference.context, R.attr.iconColor))
 
         val timelineFilterPreferences: Preference = requirePreference("timelineFilterPreferences")
         timelineFilterPreferences.setOnPreferenceClickListener {
@@ -67,11 +66,11 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         }
 
         val languagePreference: Preference = requirePreference("language")
-        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.iconColor))
+        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(com.keylesspalace.tusky.util.ThemeUtils.getColor(languagePreference.context, R.attr.iconColor))
 
         val botIndicatorPreference = requirePreference("showBotOverlay")
 
-        botIndicatorPreference.icon = ThemeUtils.getTintedDrawable(requireContext(), R.drawable.ic_bot_24dp, R.attr.iconColor)
+        botIndicatorPreference.icon = com.keylesspalace.tusky.util.ThemeUtils.getTintedDrawable(requireContext(), R.drawable.ic_bot_24dp, R.attr.iconColor)
     }
 
     override fun onResume() {

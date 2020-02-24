@@ -22,11 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.ViewThreadFragment;
 import com.keylesspalace.tusky.util.LinkHelper;
+
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 
@@ -48,6 +51,7 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasAndroi
     }
 
     private static final String ID_EXTRA = "id";
+    private static final String DEEPLINK_DATA ="statusLink";
     private static final String URL_EXTRA = "url";
     private static final String FRAGMENT_TAG = "ViewThreadFragment_";
 
@@ -73,6 +77,11 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasAndroi
         }
 
         String id = getIntent().getStringExtra(ID_EXTRA);
+
+        if (id == null){
+            String deepLinkData = getIntent().getStringExtra(DEEPLINK_DATA);
+            id = StringUtils.right( deepLinkData, 18 );
+        }
 
         fragment = (ViewThreadFragment)getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG + id);
         if(fragment == null) {

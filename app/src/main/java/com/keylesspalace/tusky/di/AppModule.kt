@@ -21,11 +21,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
-import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.EventHubImpl
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.network.TimelineCasesImpl
@@ -43,7 +41,7 @@ import javax.inject.Singleton
 class AppModule {
 
     @Provides
-    fun providesApplication(app: TuskyApplication): Application = app
+    fun providesApplication(app: com.keylesspalace.tusky.TuskyApplication): Application = app
 
     @Provides
     fun providesContext(app: Application): Context = app
@@ -66,7 +64,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesAccountManager(app: TuskyApplication): AccountManager {
+    fun providesAccountManager(app: com.keylesspalace.tusky.TuskyApplication): AccountManager {
         return app.serviceLocator.get(AccountManager::class.java)
     }
 
@@ -76,8 +74,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesDatabase(app: TuskyApplication): AppDatabase {
-        return app.serviceLocator.get(AppDatabase::class.java)
+    fun providesDatabase(app: com.keylesspalace.tusky.TuskyApplication): com.keylesspalace.tusky.db.AppDatabase {
+        return app.serviceLocator.get(com.keylesspalace.tusky.db.AppDatabase::class.java)
     }
 
     @Provides

@@ -44,7 +44,7 @@ import kotlinx.android.synthetic.main.toolbar_basic.*
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
+class TabPreferenceActivity : com.keylesspalace.tusky.BaseActivity(), Injectable, ItemInteractionListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi

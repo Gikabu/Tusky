@@ -23,21 +23,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.Status
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injectable {
+class ScheduledTootActivity : com.keylesspalace.tusky.BaseActivity(), ScheduledTootActionListener, Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -60,7 +58,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
         swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(this, android.R.attr.colorBackground))
+                com.keylesspalace.tusky.util.ThemeUtils.getColor(this, android.R.attr.colorBackground))
 
         scheduledTootList.setHasFixedSize(true)
         scheduledTootList.layoutManager = LinearLayoutManager(this)

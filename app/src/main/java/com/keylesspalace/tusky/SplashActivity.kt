@@ -15,35 +15,63 @@
 
 package com.keylesspalace.tusky
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 
-import com.keylesspalace.tusky.util.NotificationHelper
 import javax.inject.Inject
+
 
 class SplashActivity : AppCompatActivity(), Injectable {
 
     @Inject
     lateinit var accountManager: AccountManager
+    private lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val accessToken = "STtr3NKLB3b9a97uPonpaXYP3uwAcnrXZ8V4Xt2p5Bc"
+        val clientSecret = "ao_dCIBh6znvXSbKGJLo_sk5J6T6_icdGJW4DSAYoos"
+        val clientID = "mev6-7TvF5cK8X-Q3Z5zVnS9-1E538EZuB4AWxC_ymo"
+        val domain = "mastodon.social"
+
+        val action = intent.action
+        val data = intent.data
+
         /** delete old notification channels */
-        NotificationHelper.deleteLegacyNotificationChannels(this, accountManager)
+        com.keylesspalace.tusky.util.NotificationHelper.deleteLegacyNotificationChannels(this, accountManager)
 
         /** Determine whether the user is currently logged in, and if so go ahead and load the
          *  timeline. Otherwise, start the activity_login screen. */
 
-        val intent = if (accountManager.activeAccount != null) {
-            Intent(this, MainActivity::class.java)
+        val intent1 = if (accountManager.activeAccount != null) {
+            if (action.equals("android.intent.action.VIEW"))
+                Intent(this, com.keylesspalace.tusky.ViewThreadActivity::class.java).putExtra("statusLink", data.toString())
+            else {
+                Intent(this, com.keylesspalace.tusky.MainActivity::class.java)
+            }
         } else {
-            LoginActivity.getIntent(this, false)
+            preferences = getSharedPreferences(
+                    getString(R.string.preferences_file_key), Context.MODE_PRIVATE)
+
+            preferences.edit()
+                    .putString("domain", domain)
+                    .putString("clientId", clientID)
+                    .putString("clientSecret", clientSecret)
+                    .apply()
+
+            accountManager.addAccount(accessToken, domain)
+
+            Intent(this, com.keylesspalace.tusky.MainActivity::class.java)
+
+//            LoginActivity.getIntent(this, false)
         }
-        startActivity(intent)
+        startActivity(intent1)
         finish()
     }
 

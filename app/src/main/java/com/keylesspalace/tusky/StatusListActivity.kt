@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.commit
 
-import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.fragment.TimelineFragment.Kind
 
 import javax.inject.Inject
@@ -60,7 +59,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         }
 
         supportFragmentManager.commit {
-            val fragment = TimelineFragment.newInstance(kind)
+            val fragment = com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(kind)
             replace(R.id.fragment_container, fragment)
         }
 

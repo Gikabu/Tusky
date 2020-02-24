@@ -32,10 +32,10 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
-    abstract fun contributesBaseActivity(): BaseActivity
+    abstract fun contributesBaseActivity(): com.keylesspalace.tusky.BaseActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesMainActivity(): MainActivity
+    abstract fun contributesMainActivity(): com.keylesspalace.tusky.MainActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesAccountActivity(): AccountActivity
@@ -56,10 +56,10 @@ abstract class ActivitiesModule {
     abstract fun contributesModalTimelineActivity(): ModalTimelineActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesViewTagActivity(): ViewTagActivity
+    abstract fun contributesViewTagActivity(): com.keylesspalace.tusky.ViewTagActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesViewThreadActivity(): ViewThreadActivity
+    abstract fun contributesViewThreadActivity(): com.keylesspalace.tusky.ViewThreadActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesStatusListActivity(): StatusListActivity
@@ -77,7 +77,7 @@ abstract class ActivitiesModule {
     abstract fun contributesSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector
-    abstract fun contributesSavedTootActivity(): SavedTootActivity
+    abstract fun contributesSavedTootActivity(): com.keylesspalace.tusky.SavedTootActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesPreferencesActivity(): PreferencesActivity

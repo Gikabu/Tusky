@@ -69,7 +69,7 @@ public class LinkHelper {
      * @param listener to notify about particular spans that are clicked
      */
     public static void setClickableText(TextView view, Spanned content,
-                                        @Nullable Status.Mention[] mentions, final LinkListener listener) {
+                                        @Nullable com.keylesspalace.tusky.entity.Status.Mention[] mentions, final LinkListener listener) {
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
@@ -91,7 +91,7 @@ public class LinkHelper {
                  * username. If a match has the same domain we know it's for sure the same, but if
                  * that can't be found then just go with whichever one matched last. */
                 String id = null;
-                for (Status.Mention mention : mentions) {
+                for (com.keylesspalace.tusky.entity.Status.Mention mention : mentions) {
                     if (mention.getLocalUsername().equalsIgnoreCase(accountUsername)) {
                         id = mention.getId();
                         if (mention.getUrl().contains(getDomain(span.getURL()))) {
@@ -141,7 +141,7 @@ public class LinkHelper {
      * @param listener to notify about particular spans that are clicked
      */
     public static void setClickableMentions(
-            TextView view, @Nullable Status.Mention[] mentions, final LinkListener listener) {
+            TextView view, @Nullable com.keylesspalace.tusky.entity.Status.Mention[] mentions, final LinkListener listener) {
         if (mentions == null || mentions.length == 0) {
             view.setText(null);
             return;

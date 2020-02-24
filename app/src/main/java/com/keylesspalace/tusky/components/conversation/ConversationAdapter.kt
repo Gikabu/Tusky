@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.NetworkStateViewHolder
-import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 
 class ConversationAdapter(
         private val statusDisplayOptions: StatusDisplayOptions,
-        private val listener: StatusActionListener,
+        private val listener: com.keylesspalace.tusky.interfaces.StatusActionListener,
         private val topLoadedCallback: () -> Unit,
         private val retryCallback: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -52,7 +51,7 @@ class ConversationAdapter(
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.item_network_state -> NetworkStateViewHolder(view, retryCallback)
-            R.layout.item_conversation -> ConversationViewHolder(view, statusDisplayOptions,
+            R.layout.item_conversation -> com.keylesspalace.tusky.components.conversation.ConversationViewHolder(view, statusDisplayOptions,
                     listener)
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
@@ -61,7 +60,7 @@ class ConversationAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.item_network_state -> (holder as NetworkStateViewHolder).setUpWithNetworkState(networkState, differ.itemCount == 0)
-            R.layout.item_conversation -> (holder as ConversationViewHolder).setupWithConversation(differ.getItem(position))
+            R.layout.item_conversation -> (holder as com.keylesspalace.tusky.components.conversation.ConversationViewHolder).setupWithConversation(differ.getItem(position))
         }
     }
 

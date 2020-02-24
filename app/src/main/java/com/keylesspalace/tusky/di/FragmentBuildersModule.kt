@@ -44,13 +44,13 @@ abstract class FragmentBuildersModule {
     abstract fun accountMediaFragment(): AccountMediaFragment
 
     @ContributesAndroidInjector
-    abstract fun viewThreadFragment(): ViewThreadFragment
+    abstract fun viewThreadFragment(): com.keylesspalace.tusky.fragment.ViewThreadFragment
 
     @ContributesAndroidInjector
-    abstract fun timelineFragment(): TimelineFragment
+    abstract fun timelineFragment(): com.keylesspalace.tusky.fragment.TimelineFragment
 
     @ContributesAndroidInjector
-    abstract fun notificationsFragment(): NotificationsFragment
+    abstract fun notificationsFragment(): com.keylesspalace.tusky.fragment.NotificationsFragment
 
     @ContributesAndroidInjector
     abstract fun searchFragment(): SearchStatusesFragment

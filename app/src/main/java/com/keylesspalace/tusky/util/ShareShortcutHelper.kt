@@ -27,7 +27,6 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.bumptech.glide.Glide
-import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
 import io.reactivex.Single
@@ -70,10 +69,10 @@ fun updateShortcut(context: Context, account: AccountEntity) {
                 .build()
 
         // This intent will be sent when the user clicks on one of the launcher shortcuts. Intent from share sheet will be different
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, com.keylesspalace.tusky.MainActivity::class.java).apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
-            putExtra(NotificationHelper.ACCOUNT_ID, account.id)
+            putExtra(com.keylesspalace.tusky.util.NotificationHelper.ACCOUNT_ID, account.id)
         }
 
         val shortcutInfo = ShortcutInfoCompat.Builder(context, account.id.toString())

@@ -15,20 +15,17 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.Accessibilit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
-import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlin.math.min
 
 // Not using lambdas because there's boxing of int then
 interface StatusProvider {
-    fun getStatus(pos: Int): StatusViewData?
+    fun getStatus(pos: Int): com.keylesspalace.tusky.viewdata.StatusViewData?
 }
 
 class ListStatusAccessibilityDelegate(
         private val recyclerView: RecyclerView,
-        private val statusActionListener: StatusActionListener,
+        private val statusActionListener: com.keylesspalace.tusky.interfaces.StatusActionListener,
         private val statusProvider: StatusProvider
 ) : RecyclerViewAccessibilityDelegate(recyclerView) {
     private val a11yManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
@@ -45,7 +42,7 @@ class ListStatusAccessibilityDelegate(
 
             val pos = recyclerView.getChildAdapterPosition(host)
             val status = statusProvider.getStatus(pos) ?: return
-            if (status is StatusViewData.Concrete) {
+            if (status is com.keylesspalace.tusky.viewdata.StatusViewData.Concrete) {
                 if (!status.spoilerText.isNullOrEmpty()) {
                     info.addAction(if (status.isExpanded) collapseCwAction else expandCwAction)
                 }
@@ -103,7 +100,7 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_open_profile -> {
                     interrupt()
                     statusActionListener.onViewAccount(
-                            (statusProvider.getStatus(pos) as StatusViewData.Concrete).senderId)
+                            (statusProvider.getStatus(pos) as com.keylesspalace.tusky.viewdata.StatusViewData.Concrete).senderId)
                 }
                 R.id.action_open_media_1 -> {
                     interrupt()
@@ -124,7 +121,7 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_expand_cw -> {
                     // Toggling it directly to avoid animations
                     // which cannot be disabled for detaild status for some reason
-                    val holder = recyclerView.getChildViewHolder(host) as StatusBaseViewHolder
+                    val holder = recyclerView.getChildViewHolder(host) as com.keylesspalace.tusky.adapter.StatusBaseViewHolder
                     holder.toggleContentWarning()
                     // Stop and restart narrator before it reads old description.
                     // Would be nice if we could *just* read the content here but doesn't seem
@@ -157,7 +154,7 @@ class ListStatusAccessibilityDelegate(
 
 
         private fun showLinksDialog(host: View) {
-            val status = getStatus(host) as? StatusViewData.Concrete ?: return
+            val status = getStatus(host) as? com.keylesspalace.tusky.viewdata.StatusViewData.Concrete ?: return
             val links = getLinks(status).toList()
             val textLinks = links.map { item -> item.link }
             AlertDialog.Builder(host.context)
@@ -166,13 +163,13 @@ class ListStatusAccessibilityDelegate(
                             host.context,
                             android.R.layout.simple_list_item_1,
                             textLinks)
-                    ) { _, which -> LinkHelper.openLink(links[which].link, host.context) }
+                    ) { _, which -> com.keylesspalace.tusky.util.LinkHelper.openLink(links[which].link, host.context) }
                     .show()
                     .let { forceFocus(it.listView) }
         }
 
         private fun showMentionsDialog(host: View) {
-            val status = getStatus(host) as? StatusViewData.Concrete ?: return
+            val status = getStatus(host) as? com.keylesspalace.tusky.viewdata.StatusViewData.Concrete ?: return
             val mentions = status.mentions ?: return
             val stringMentions = mentions.map { it.username }
             AlertDialog.Builder(host.context)
@@ -187,7 +184,7 @@ class ListStatusAccessibilityDelegate(
         }
 
         private fun showHashtagsDialog(host: View) {
-            val status = getStatus(host) as? StatusViewData.Concrete ?: return
+            val status = getStatus(host) as? com.keylesspalace.tusky.viewdata.StatusViewData.Concrete ?: return
             val tags = getHashtags(status).map { it.subSequence(1, it.length) }.toList()
             AlertDialog.Builder(host.context)
                     .setTitle(R.string.title_hashtags_dialog)
@@ -200,13 +197,13 @@ class ListStatusAccessibilityDelegate(
                     .let { forceFocus(it.listView) }
         }
 
-        private fun getStatus(childView: View): StatusViewData {
+        private fun getStatus(childView: View): com.keylesspalace.tusky.viewdata.StatusViewData {
             return statusProvider.getStatus(recyclerView.getChildAdapterPosition(childView))!!
         }
     }
 
 
-    private fun getLinks(status: StatusViewData.Concrete): Sequence<LinkSpanInfo> {
+    private fun getLinks(status: com.keylesspalace.tusky.viewdata.StatusViewData.Concrete): Sequence<LinkSpanInfo> {
         val content = status.content
         return if (content is Spannable) {
             content.getSpans(0, content.length, URLSpan::class.java)
@@ -223,7 +220,7 @@ class ListStatusAccessibilityDelegate(
         }
     }
 
-    private fun getHashtags(status: StatusViewData.Concrete): Sequence<CharSequence> {
+    private fun getHashtags(status: com.keylesspalace.tusky.viewdata.StatusViewData.Concrete): Sequence<CharSequence> {
         val content = status.content
         return content.getSpans(0, content.length, Object::class.java)
                 .asSequence()

@@ -18,17 +18,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 abstract class SearchFragment<T> : Fragment(),
-        LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
+        com.keylesspalace.tusky.interfaces.LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
 
     private var snackbarErrorRetry: Snackbar? = null
     @Inject
@@ -63,7 +61,7 @@ abstract class SearchFragment<T> : Fragment(),
         swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground)
+                com.keylesspalace.tusky.util.ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground)
         )
     }
 
@@ -126,7 +124,7 @@ abstract class SearchFragment<T> : Fragment(),
 
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
 
-    override fun onViewTag(tag: String) = startActivity(ViewTagActivity.getIntent(requireContext(), tag))
+    override fun onViewTag(tag: String) = startActivity(com.keylesspalace.tusky.ViewTagActivity.getIntent(requireContext(), tag))
 
     override fun onViewUrl(url: String) {
         bottomSheetActivity?.viewUrl(url)

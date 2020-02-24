@@ -38,8 +38,6 @@ import androidx.paging.PagedListAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.BaseActivity
-import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
@@ -50,29 +48,27 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
-import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
+class SearchStatusesFragment : SearchFragment<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>(), com.keylesspalace.tusky.interfaces.StatusActionListener {
 
     override val networkStateRefresh: LiveData<NetworkState>
         get() = viewModel.networkStateStatusRefresh
     override val networkState: LiveData<NetworkState>
         get() = viewModel.networkStateStatus
-    override val data: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>>
+    override val data: LiveData<PagedList<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>>
         get() = viewModel.statuses
 
     private val searchAdapter
             get() = super.adapter as SearchStatusesAdapter
 
-    override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
+    override fun createAdapter(): PagedListAdapter<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
                 animateAvatars = preferences.getBoolean("animateGifAvatars", false),
@@ -348,11 +344,11 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
 
     private fun openAsAccount(statusUrl: String, account: AccountEntity) {
         viewModel.activeAccount = account
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, com.keylesspalace.tusky.MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra(MainActivity.STATUS_URL, statusUrl)
+        intent.putExtra(com.keylesspalace.tusky.MainActivity.STATUS_URL, statusUrl)
         startActivity(intent)
-        (activity as BaseActivity).finishWithoutSlideOutAnimation()
+        (activity as com.keylesspalace.tusky.BaseActivity).finishWithoutSlideOutAnimation()
     }
 
     private fun downloadAllMedia(status: Status) {
@@ -370,7 +366,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
 
     private fun requestDownloadAllMedia(status: Status) {
         val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        (activity as BaseActivity).requestPermissions(permissions) { _, grantResults ->
+        (activity as com.keylesspalace.tusky.BaseActivity).requestPermissions(permissions) { _, grantResults ->
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadAllMedia(status)
             } else {

@@ -80,7 +80,7 @@ fun getSampledBitmap(contentResolver: ContentResolver, uri: Uri, @Px reqWidth: I
 
     BitmapFactory.decodeStream(stream, null, options)
 
-    IOUtils.closeQuietly(stream)
+    com.keylesspalace.tusky.util.IOUtils.closeQuietly(stream)
 
     // Calculate inSampleSize
     options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
@@ -99,7 +99,7 @@ fun getSampledBitmap(contentResolver: ContentResolver, uri: Uri, @Px reqWidth: I
         Log.e(TAG, "OutOfMemoryError while trying to get sampled Bitmap", e)
         null
     } finally {
-        IOUtils.closeQuietly(stream)
+        com.keylesspalace.tusky.util.IOUtils.closeQuietly(stream)
     }
 }
 
@@ -111,7 +111,7 @@ fun getImageSquarePixels(contentResolver: ContentResolver, uri: Uri): Long {
     options.inJustDecodeBounds = true
     BitmapFactory.decodeStream(input, null, options)
 
-    IOUtils.closeQuietly(input)
+    com.keylesspalace.tusky.util.IOUtils.closeQuietly(input)
 
     return (options.outWidth * options.outHeight).toLong()
 }
@@ -192,11 +192,11 @@ fun getImageOrientation(uri: Uri, contentResolver: ContentResolver): Int {
         exifInterface = ExifInterface(inputStream)
     } catch (e: IOException) {
         Log.w(TAG, e)
-        IOUtils.closeQuietly(inputStream)
+        com.keylesspalace.tusky.util.IOUtils.closeQuietly(inputStream)
         return ExifInterface.ORIENTATION_UNDEFINED
     }
     val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-    IOUtils.closeQuietly(inputStream)
+    com.keylesspalace.tusky.util.IOUtils.closeQuietly(inputStream)
     return orientation
 }
 

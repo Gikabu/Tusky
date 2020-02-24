@@ -24,7 +24,6 @@ import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabData
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.item_tab_preference.view.*
@@ -65,7 +64,7 @@ class TabAdapter(private var data: List<TabData>,
         } else {
             holder.itemView.textView.setText(data[position].text)
         }
-        val iconDrawable = ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
+        val iconDrawable = com.keylesspalace.tusky.util.ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
         holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
         if (small) {
             holder.itemView.textView.setOnClickListener {
@@ -85,7 +84,7 @@ class TabAdapter(private var data: List<TabData>,
         }
         if (holder.itemView.removeButton != null) {
             holder.itemView.removeButton.isEnabled = removeButtonEnabled
-            ThemeUtils.setDrawableTint(
+            com.keylesspalace.tusky.util.ThemeUtils.setDrawableTint(
                 holder.itemView.context,
                 holder.itemView.removeButton.drawable,
                 (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)

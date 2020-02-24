@@ -3,13 +3,13 @@ package com.keylesspalace.tusky.util
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-private fun getErrorMessage(report: PagingRequestHelper.StatusReport): String {
-    return PagingRequestHelper.RequestType.values().mapNotNull {
+private fun getErrorMessage(report: com.keylesspalace.tusky.util.PagingRequestHelper.StatusReport): String {
+    return com.keylesspalace.tusky.util.PagingRequestHelper.RequestType.values().mapNotNull {
         report.getErrorFor(it)?.message
     }.first()
 }
 
-fun PagingRequestHelper.createStatusLiveData(): LiveData<NetworkState> {
+fun com.keylesspalace.tusky.util.PagingRequestHelper.createStatusLiveData(): LiveData<NetworkState> {
     val liveData = MutableLiveData<NetworkState>()
     addListener { report ->
         when {

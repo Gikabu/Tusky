@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import retrofit2.Call
@@ -92,9 +91,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         publicFiltersPreference = requirePreference("publicFilters")
         threadFiltersPreference = requirePreference("threadFilters")
 
-        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.iconColor))
+        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(com.keylesspalace.tusky.util.ThemeUtils.getColor(notificationPreference.context, R.attr.iconColor))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.iconColor))
+        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(com.keylesspalace.tusky.util.ThemeUtils.getColor(blockedUsersPreference.context, R.attr.iconColor))
         mutedDomainsPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
 
         notificationPreference.onPreferenceClickListener = this
@@ -288,7 +287,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     }
 
     private fun getTintedIcon(iconId: Int): Drawable? {
-        return ThemeUtils.getTintedDrawable(requireContext(), iconId, R.attr.iconColor)
+        return com.keylesspalace.tusky.util.ThemeUtils.getTintedDrawable(requireContext(), iconId, R.attr.iconColor)
     }
 
     private fun launchFilterActivity(filterContext: String, titleResource: Int): Boolean {

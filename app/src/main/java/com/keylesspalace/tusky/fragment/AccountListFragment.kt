@@ -27,18 +27,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.*
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.Single
@@ -51,7 +46,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 
-class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
+class AccountListFragment : com.keylesspalace.tusky.fragment.BaseFragment(), com.keylesspalace.tusky.interfaces.AccountActionListener, Injectable {
 
     @Inject
     lateinit var api: MastodonApi
@@ -59,8 +54,8 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     private lateinit var type: Type
     private var id: String? = null
 
-    private lateinit var scrollListener: EndlessOnScrollListener
-    private lateinit var adapter: AccountAdapter
+    private lateinit var scrollListener: com.keylesspalace.tusky.view.EndlessOnScrollListener
+    private lateinit var adapter: com.keylesspalace.tusky.adapter.AccountAdapter
     private var fetching = false
     private var bottomId: String? = null
 
@@ -84,14 +79,14 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
         adapter = when (type) {
-            Type.BLOCKS -> BlocksAdapter(this)
-            Type.MUTES -> MutesAdapter(this)
-            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
-            else -> FollowAdapter(this)
+            Type.BLOCKS -> com.keylesspalace.tusky.adapter.BlocksAdapter(this)
+            Type.MUTES -> com.keylesspalace.tusky.adapter.MutesAdapter(this)
+            Type.FOLLOW_REQUESTS -> com.keylesspalace.tusky.adapter.FollowRequestsAdapter(this)
+            else -> com.keylesspalace.tusky.adapter.FollowAdapter(this)
         }
         recyclerView.adapter = adapter
 
-        scrollListener = object : EndlessOnScrollListener(layoutManager) {
+        scrollListener = object : com.keylesspalace.tusky.view.EndlessOnScrollListener(layoutManager) {
             override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
                 if (bottomId == null) {
                     return
@@ -106,7 +101,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     override fun onViewAccount(id: String) {
-        (activity as BaseActivity?)?.let {
+        (activity as com.keylesspalace.tusky.BaseActivity?)?.let {
             val intent = AccountActivity.getIntent(it, id)
             it.startActivityWithSlideInAnimation(intent)
         }
@@ -140,7 +135,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         if (muted) {
             return
         }
-        val mutesAdapter = adapter as MutesAdapter
+        val mutesAdapter = adapter as com.keylesspalace.tusky.adapter.MutesAdapter
         val unmutedUser = mutesAdapter.removeItem(position)
 
         if (unmutedUser != null) {
@@ -190,7 +185,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         if (blocked) {
             return
         }
-        val blocksAdapter = adapter as BlocksAdapter
+        val blocksAdapter = adapter as com.keylesspalace.tusky.adapter.BlocksAdapter
         val unblockedUser = blocksAdapter.removeItem(position)
 
         if (unblockedUser != null) {
@@ -239,7 +234,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     private fun onRespondToFollowRequestSuccess(position: Int) {
-        val followRequestsAdapter = adapter as FollowRequestsAdapter
+        val followRequestsAdapter = adapter as com.keylesspalace.tusky.adapter.FollowRequestsAdapter
         followRequestsAdapter.removeItem(position)
     }
 
@@ -311,8 +306,8 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     private fun onFetchAccountsSuccess(accounts: List<Account>, linkHeader: String?) {
         adapter.setBottomLoading(false)
 
-        val links = HttpHeaderLink.parse(linkHeader)
-        val next = HttpHeaderLink.findByRelationType(links, "next")
+        val links = com.keylesspalace.tusky.util.HttpHeaderLink.parse(linkHeader)
+        val next = com.keylesspalace.tusky.util.HttpHeaderLink.findByRelationType(links, "next")
         val fromId = next?.uri?.getQueryParameter("max_id")
 
         if (adapter.itemCount > 0) {

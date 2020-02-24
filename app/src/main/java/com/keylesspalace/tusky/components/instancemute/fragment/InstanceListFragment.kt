@@ -14,12 +14,9 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instancemute.adapter.DomainMutesAdapter
 import com.keylesspalace.tusky.components.instancemute.interfaces.InstanceActionListener
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.fragment.BaseFragment
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,14 +27,14 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
+class InstanceListFragment: com.keylesspalace.tusky.fragment.BaseFragment(), Injectable, InstanceActionListener {
     @Inject
     lateinit var api: MastodonApi
 
     private var fetching = false
     private var bottomId: String? = null
     private var adapter = DomainMutesAdapter(this)
-    private lateinit var scrollListener: EndlessOnScrollListener
+    private lateinit var scrollListener: com.keylesspalace.tusky.view.EndlessOnScrollListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_instance_list, container, false)
@@ -53,7 +50,7 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
         val layoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = layoutManager
 
-        scrollListener = object : EndlessOnScrollListener(layoutManager) {
+        scrollListener = object : com.keylesspalace.tusky.view.EndlessOnScrollListener(layoutManager) {
             override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
                 if (bottomId != null) {
                     fetchInstances(bottomId)
@@ -133,8 +130,8 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
         adapter.bottomLoading = false
         instanceProgressBar.hide()
 
-        val links = HttpHeaderLink.parse(linkHeader)
-        val next = HttpHeaderLink.findByRelationType(links, "next")
+        val links = com.keylesspalace.tusky.util.HttpHeaderLink.parse(linkHeader)
+        val next = com.keylesspalace.tusky.util.HttpHeaderLink.findByRelationType(links, "next")
         val fromId = next?.uri?.getQueryParameter("max_id")
         adapter.addItems(instances)
         bottomId = fromId

@@ -13,10 +13,10 @@ interface HtmlConverter {
 
 internal class HtmlConverterImpl : HtmlConverter {
     override fun fromHtml(html: String): Spanned {
-        return HtmlUtils.fromHtml(html)
+        return com.keylesspalace.tusky.util.HtmlUtils.fromHtml(html)
     }
 
     override fun toHtml(text: Spanned): String {
-        return HtmlUtils.toHtml(text)
+        return com.keylesspalace.tusky.util.HtmlUtils.toHtml(text)
     }
 }

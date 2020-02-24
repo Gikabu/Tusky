@@ -606,11 +606,11 @@ public abstract class StatusViewData {
         }
 
         /**
-         * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to support collapsing
+         * Configure the {@link StatusViewData} to support collapsing
          * its content limiting the visible length when collapsed at 500 characters,
          *
          * @param collapsible Whether the status should support being collapsed or not.
-         * @return This {@link com.keylesspalace.tusky.viewdata.StatusViewData.Builder} instance.
+         * @return This {@link StatusViewData.Builder} instance.
          */
         public Builder setCollapsible(boolean collapsible) {
             isCollapsible = collapsible;
@@ -618,11 +618,11 @@ public abstract class StatusViewData {
         }
 
         /**
-         * Configure the {@link com.keylesspalace.tusky.viewdata.StatusViewData} to start in a collapsed
+         * Configure the {@link StatusViewData} to start in a collapsed
          * state, hiding partially the content of the post if it exceeds a certain amount of characters.
          *
          * @param collapsed Whether to show the full content of the status or not.
-         * @return This {@link com.keylesspalace.tusky.viewdata.StatusViewData.Builder} instance.
+         * @return This {@link StatusViewData.Builder} instance.
          */
         public Builder setCollapsed(boolean collapsed) {
             isCollapsed = collapsed;

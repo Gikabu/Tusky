@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.compose.view.ProgressImageView
 
 class MediaPreviewAdapter(
         context: Context,
@@ -62,7 +61,7 @@ class MediaPreviewAdapter(
     override fun getItemCount(): Int = differ.currentList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
-        return PreviewViewHolder(ProgressImageView(parent.context))
+        return PreviewViewHolder(com.keylesspalace.tusky.components.compose.view.ProgressImageView(parent.context))
     }
 
     override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
@@ -91,7 +90,7 @@ class MediaPreviewAdapter(
         }
     })
 
-    inner class PreviewViewHolder(val progressImageView: ProgressImageView)
+    inner class PreviewViewHolder(val progressImageView: com.keylesspalace.tusky.components.compose.view.ProgressImageView)
         : RecyclerView.ViewHolder(progressImageView) {
         init {
             val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)

@@ -75,7 +75,7 @@ private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
         val end = builder.getSpanEnd(span)
         val flags = builder.getSpanFlags(span)
 
-        val customSpan = object : CustomURLSpan(span.url) {}
+        val customSpan = object : com.keylesspalace.tusky.util.CustomURLSpan(span.url) {}
 
         builder.removeSpan(span)
         builder.setSpan(customSpan, start, end, flags)

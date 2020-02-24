@@ -23,7 +23,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.ThreadAdapter
 
 class ConversationLineItemDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
 
@@ -40,7 +39,7 @@ class ConversationLineItemDecoration(private val context: Context) : RecyclerVie
             val child = parent.getChildAt(i)
 
             val position = parent.getChildAdapterPosition(child)
-            val adapter = parent.adapter as ThreadAdapter
+            val adapter = parent.adapter as com.keylesspalace.tusky.adapter.ThreadAdapter
 
             val current = adapter.getItem(position)
             val dividerTop: Int

@@ -21,11 +21,9 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.entity.Status
@@ -50,8 +48,8 @@ class ComposeViewModel
         private val accountManager: AccountManager,
         private val mediaUploader: MediaUploader,
         private val serviceClient: ServiceClient,
-        private val saveTootHelper: SaveTootHelper,
-        private val db: AppDatabase
+        private val saveTootHelper: com.keylesspalace.tusky.util.SaveTootHelper,
+        private val db: com.keylesspalace.tusky.db.AppDatabase
 ) : RxAwareViewModel() {
 
     private var replyingStatusAuthor: String? = null
@@ -69,7 +67,7 @@ class ComposeViewModel
                 maxChars = instance?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
                 pollMaxOptions = instance?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
                 pollMaxLength = instance?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
-                supportsScheduled = instance?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
+                supportsScheduled = instance?.version?.let { com.keylesspalace.tusky.util.VersionUtils(it).supportsScheduledToots() } ?: false
         )
     }
     val emoji: MutableLiveData<List<Emoji>?> = MutableLiveData()
@@ -297,13 +295,13 @@ class ComposeViewModel
     }
 
 
-    fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
+    fun searchAutocompleteSuggestions(token: String): List<com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.AutocompleteResult> {
         when (token[0]) {
             '@' -> {
                 return try {
                     api.searchAccounts(query = token.substring(1), limit = 10)
                             .blockingGet()
-                            .map { ComposeAutoCompleteAdapter.AccountResult(it) }
+                            .map { com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.AccountResult(it) }
                 } catch (e: Throwable) {
                     Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
                     emptyList()
@@ -314,7 +312,7 @@ class ComposeViewModel
                     api.searchObservable(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
                             .blockingGet()
                             .hashtags
-                            .map { ComposeAutoCompleteAdapter.HashtagResult(it) }
+                            .map { com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.HashtagResult(it) }
                 } catch (e: Throwable) {
                     Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
                     emptyList()
@@ -324,18 +322,18 @@ class ComposeViewModel
                 val emojiList = emoji.value ?: return emptyList()
 
                 val incomplete = token.substring(1).toLowerCase(Locale.ROOT)
-                val results = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
-                val resultsInside = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
+                val results = ArrayList<com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.AutocompleteResult>()
+                val resultsInside = ArrayList<com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.AutocompleteResult>()
                 for (emoji in emojiList) {
                     val shortcode = emoji.shortcode.toLowerCase(Locale.ROOT)
                     if (shortcode.startsWith(incomplete)) {
-                        results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                        results.add(com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.EmojiResult(emoji))
                     } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                        resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                        resultsInside.add(com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.EmojiResult(emoji))
                     }
                 }
                 if (results.isNotEmpty() && resultsInside.isNotEmpty()) {
-                    results.add(ComposeAutoCompleteAdapter.ResultSeparator())
+                    results.add(com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.ResultSeparator())
                 }
                 results.addAll(resultsInside)
                 return results

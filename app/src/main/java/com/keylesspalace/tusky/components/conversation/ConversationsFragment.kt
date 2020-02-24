@@ -29,26 +29,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewTagActivity
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
-import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
-class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
+class ConversationsFragment : com.keylesspalace.tusky.fragment.SFragment(), com.keylesspalace.tusky.interfaces.StatusActionListener, Injectable, ReselectableFragment {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     @Inject
-    lateinit var db: AppDatabase
+    lateinit var db: com.keylesspalace.tusky.db.AppDatabase
 
     private lateinit var viewModel: ConversationsViewModel
 
@@ -106,7 +101,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             viewModel.refresh()
         }
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(com.keylesspalace.tusky.util.ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
     }
 
     private fun onTopLoaded() {
@@ -169,7 +164,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onViewTag(tag: String) {
-        val intent = Intent(context, ViewTagActivity::class.java)
+        val intent = Intent(context, com.keylesspalace.tusky.ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
         startActivity(intent)
     }

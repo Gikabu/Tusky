@@ -34,7 +34,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
-import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
@@ -54,7 +53,7 @@ import javax.inject.Inject
  * Created by charlag on 1/4/18.
  */
 
-class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
+class ListsActivity : com.keylesspalace.tusky.BaseActivity(), Injectable, HasAndroidInjector {
 
     companion object {
         @JvmStatic
@@ -179,7 +178,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun onListSelected(listId: String) {
         startActivityWithSlideInAnimation(
-                ModalTimelineActivity.newIntent(this, TimelineFragment.Kind.LIST, listId))
+                ModalTimelineActivity.newIntent(this, com.keylesspalace.tusky.fragment.TimelineFragment.Kind.LIST, listId))
     }
 
     private fun openListSettings(list: MastoList) {
@@ -234,7 +233,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                     .let(this::ListViewHolder)
                     .apply {
                         val context = nameTextView.context
-                        val iconColor = ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
+                        val iconColor = com.keylesspalace.tusky.util.ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
                         val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).sizeDp(20).color(iconColor)
 
                         nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)

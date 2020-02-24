@@ -32,7 +32,7 @@ class NotificationClearBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 
-        val accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1)
+        val accountId = intent.getLongExtra(com.keylesspalace.tusky.util.NotificationHelper.ACCOUNT_ID, -1)
 
         val account = accountManager.getAccountById(accountId)
         if (account != null) {

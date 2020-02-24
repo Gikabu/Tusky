@@ -51,7 +51,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class EditProfileActivity : BaseActivity(), Injectable {
+class EditProfileActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
 
     companion object {
         const val AVATAR_SIZE = 400

@@ -21,22 +21,20 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.AccountViewHolder
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.interfaces.LinkListener
 
-class SearchAccountsAdapter(private val linkListener: LinkListener)
+class SearchAccountsAdapter(private val linkListener: com.keylesspalace.tusky.interfaces.LinkListener)
     : PagedListAdapter<Account, RecyclerView.ViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_account, parent, false)
-        return AccountViewHolder(view)
+        return com.keylesspalace.tusky.adapter.AccountViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            (holder as AccountViewHolder).apply {
+            (holder as com.keylesspalace.tusky.adapter.AccountViewHolder).apply {
                 setupWithAccount(item)
                 setupLinkListener(linkListener)
             }

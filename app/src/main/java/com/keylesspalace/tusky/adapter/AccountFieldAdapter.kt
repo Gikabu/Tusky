@@ -25,13 +25,10 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.entity.IdentityProof
-import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.CustomEmojiHelper
 import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.LinkHelper
 import kotlinx.android.synthetic.main.item_account_field.view.*
 
-class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
+class AccountFieldAdapter(private val linkListener: com.keylesspalace.tusky.interfaces.LinkListener) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
 
     var emojis: List<Emoji> = emptyList()
     var fields: List<Either<IdentityProof, Field>> = emptyList()
@@ -50,18 +47,18 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
             val identityProof = proofOrField.asLeft()
 
             viewHolder.nameTextView.text = identityProof.provider
-            viewHolder.valueTextView.text = LinkHelper.createClickableText(identityProof.username, identityProof.profileUrl)
+            viewHolder.valueTextView.text = com.keylesspalace.tusky.util.LinkHelper.createClickableText(identityProof.username, identityProof.profileUrl)
 
             viewHolder.valueTextView.movementMethod = LinkMovementMethod.getInstance()
 
             viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
         } else {
             val field = proofOrField.asRight()
-            val emojifiedName = CustomEmojiHelper.emojifyString(field.name, emojis, viewHolder.nameTextView)
+            val emojifiedName = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyString(field.name, emojis, viewHolder.nameTextView)
             viewHolder.nameTextView.text = emojifiedName
 
-            val emojifiedValue = CustomEmojiHelper.emojifyText(field.value, emojis, viewHolder.valueTextView)
-            LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
+            val emojifiedValue = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyText(field.value, emojis, viewHolder.valueTextView)
+            com.keylesspalace.tusky.util.LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
 
             if(field.verifiedAt != null) {
                 viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)

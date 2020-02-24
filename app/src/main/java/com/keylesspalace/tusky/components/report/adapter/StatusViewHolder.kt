@@ -23,7 +23,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
@@ -89,7 +88,7 @@ class StatusViewHolder(
                 itemView.statusContentWarningButton.hide()
                 itemView.statusContentWarningDescription.hide()
             } else {
-                val emojiSpoiler = CustomEmojiHelper.emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
+                val emojiSpoiler = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
                 itemView.statusContentWarningDescription.text = emojiSpoiler
                 itemView.statusContentWarningDescription.show()
                 itemView.statusContentWarningButton.show()
@@ -120,12 +119,12 @@ class StatusViewHolder(
                                content: Spanned,
                                mentions: Array<Status.Mention>?,
                                emojis: List<Emoji>,
-                               listener: LinkListener) {
+                               listener: com.keylesspalace.tusky.interfaces.LinkListener) {
         if (expanded) {
-            val emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, itemView.statusContent)
-            LinkHelper.setClickableText(itemView.statusContent, emojifiedText, mentions, listener)
+            val emojifiedText = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyText(content, emojis, itemView.statusContent)
+            com.keylesspalace.tusky.util.LinkHelper.setClickableText(itemView.statusContent, emojifiedText, mentions, listener)
         } else {
-            LinkHelper.setClickableMentions(itemView.statusContent, mentions, listener)
+            com.keylesspalace.tusky.util.LinkHelper.setClickableMentions(itemView.statusContent, mentions, listener)
         }
         if (itemView.statusContent.text.isNullOrBlank()) {
             itemView.statusContent.hide()
@@ -141,7 +140,7 @@ class StatusViewHolder(
             itemView.timestampInfo.text = if (createdAt != null) {
                 val then = createdAt.time
                 val now = System.currentTimeMillis()
-                TimestampUtils.getRelativeTimeSpanString(itemView.timestampInfo.context, then, now)
+                com.keylesspalace.tusky.util.TimestampUtils.getRelativeTimeSpanString(itemView.timestampInfo.context, then, now)
             } else {
                 // unknown minutes~
                 "?m"

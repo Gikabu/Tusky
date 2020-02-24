@@ -56,10 +56,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
@@ -85,9 +83,9 @@ import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
 
-class ComposeActivity : BaseActivity(),
+class ComposeActivity : com.keylesspalace.tusky.BaseActivity(),
         ComposeOptionsListener,
-        ComposeAutoCompleteAdapter.AutocompletionProvider,
+        com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
         Injectable,
         InputConnectionCompat.OnCommitContentListener,
@@ -117,7 +115,7 @@ class ComposeActivity : BaseActivity(),
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val theme = preferences.getString("appTheme", com.keylesspalace.tusky.util.ThemeUtils.APP_THEME_DEFAULT)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
@@ -235,7 +233,7 @@ class ComposeActivity : BaseActivity(),
             composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
             val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
 
-            ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
+            com.keylesspalace.tusky.util.ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
             composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
 
             composeReplyView.setOnClickListener {
@@ -248,7 +246,7 @@ class ComposeActivity : BaseActivity(),
                     composeReplyContentView.show()
                     val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12)
 
-                    ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
+                    com.keylesspalace.tusky.util.ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
                     composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
                 }
             }
@@ -269,7 +267,7 @@ class ComposeActivity : BaseActivity(),
         composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
 
         composeEditField.setAdapter(
-                ComposeAutoCompleteAdapter(this))
+                com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter(this))
         composeEditField.setTokenizer(ComposeTokenizer())
 
         composeEditField.setText(startingText)
@@ -364,7 +362,7 @@ class ComposeActivity : BaseActivity(),
         atButton.setOnClickListener { atButtonClicked() }
         hashButton.setOnClickListener { hashButtonClicked() }
 
-        val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+        val textColor = com.keylesspalace.tusky.util.ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
 
         val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18)
         actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
@@ -511,7 +509,7 @@ class ComposeActivity : BaseActivity(),
                     ContextCompat.getColor(this, R.color.tusky_blue)
                 } else {
                     composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-                    ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                    com.keylesspalace.tusky.util.ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
                 }
             }
             composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
@@ -520,7 +518,7 @@ class ComposeActivity : BaseActivity(),
 
     private fun updateScheduleButton() {
         @ColorInt val color = if (composeScheduleView.time == null) {
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            com.keylesspalace.tusky.util.ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         } else {
             ContextCompat.getColor(this, R.color.tusky_blue)
         }
@@ -547,7 +545,7 @@ class ComposeActivity : BaseActivity(),
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
             else -> R.drawable.ic_lock_open_24dp
         }
-        val drawable = ThemeUtils.getTintedDrawable(this, iconRes, android.R.attr.textColorTertiary)
+        val drawable = com.keylesspalace.tusky.util.ThemeUtils.getTintedDrawable(this, iconRes, android.R.attr.textColorTertiary)
         composeToggleVisibilityButton.setImageDrawable(drawable)
     }
 
@@ -821,14 +819,14 @@ class ComposeActivity : BaseActivity(),
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
-        ThemeUtils.setDrawableTint(this, button.drawable,
+        com.keylesspalace.tusky.util.ThemeUtils.setDrawableTint(this, button.drawable,
                 if (colorActive) android.R.attr.textColorTertiary
                 else R.attr.textColorDisabled)
     }
 
     private fun enablePollButton(enable: Boolean) {
         addPollTextActionTextView.isEnabled = enable
-        val textColor = ThemeUtils.getColor(this,
+        val textColor = com.keylesspalace.tusky.util.ThemeUtils.getColor(this,
                 if (enable) android.R.attr.textColorTertiary
                 else R.attr.textColorDisabled)
         addPollTextActionTextView.setTextColor(textColor)
@@ -883,7 +881,7 @@ class ComposeActivity : BaseActivity(),
         } else {
             composeContentWarningBar.hide()
             composeEditField.requestFocus()
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            com.keylesspalace.tusky.util.ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         }
         composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
@@ -958,7 +956,7 @@ class ComposeActivity : BaseActivity(),
         finishWithoutSlideOutAnimation()
     }
 
-    override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
+    override fun search(token: String): List<com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter.AutocompleteResult> {
         return viewModel.searchAutocompleteSuggestions(token)
     }
 

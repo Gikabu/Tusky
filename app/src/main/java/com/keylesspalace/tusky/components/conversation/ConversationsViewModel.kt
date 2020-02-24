@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
@@ -17,7 +16,7 @@ import javax.inject.Inject
 class ConversationsViewModel @Inject constructor(
         private val repository: ConversationsRepository,
         private val timelineCases: TimelineCases,
-        private val database: AppDatabase,
+        private val database: com.keylesspalace.tusky.db.AppDatabase,
         private val accountManager: AccountManager
 ) : RxAwareViewModel() {
 

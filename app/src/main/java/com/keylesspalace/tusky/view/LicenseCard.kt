@@ -19,8 +19,6 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.card.MaterialCardView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.util.LinkHelper
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.card_license.view.*
 
@@ -34,7 +32,7 @@ class LicenseCard
     init {
         inflate(context, R.layout.card_license, this)
 
-        setCardBackgroundColor(ThemeUtils.getColor(context, R.attr.colorSurface))
+        setCardBackgroundColor(com.keylesspalace.tusky.util.ThemeUtils.getColor(context, R.attr.colorSurface))
 
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.LicenseCard, 0, 0)
 
@@ -49,7 +47,7 @@ class LicenseCard
             licenseCardLink.hide()
         } else {
             licenseCardLink.text = link
-            setOnClickListener { LinkHelper.openLink(link, context) }
+            setOnClickListener { com.keylesspalace.tusky.util.LinkHelper.openLink(link, context) }
         }
 
     }

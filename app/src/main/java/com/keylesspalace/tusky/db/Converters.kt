@@ -26,8 +26,6 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.json.SpannedTypeAdapter
-import com.keylesspalace.tusky.util.HtmlUtils
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.*
@@ -35,7 +33,7 @@ import java.util.*
 class Converters {
 
     private val gson = GsonBuilder()
-            .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
+            .registerTypeAdapter(Spanned::class.java, com.keylesspalace.tusky.json.SpannedTypeAdapter())
             .create()
 
     @TypeConverter
@@ -128,7 +126,7 @@ class Converters {
         if(spanned == null) {
             return null
         }
-        return HtmlUtils.toHtml(spanned)
+        return com.keylesspalace.tusky.util.HtmlUtils.toHtml(spanned)
     }
 
     @TypeConverter
@@ -136,7 +134,7 @@ class Converters {
         if(spannedString == null) {
             return null
         }
-        return HtmlUtils.fromHtml(spannedString)
+        return com.keylesspalace.tusky.util.HtmlUtils.fromHtml(spannedString)
     }
 
     @TypeConverter

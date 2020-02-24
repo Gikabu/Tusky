@@ -5,21 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.keylesspalace.tusky.fragment.TimelineFragment
-import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector {
+class ModalTimelineActivity : BottomSheetActivity(), com.keylesspalace.tusky.interfaces.ActionButtonActivity, HasAndroidInjector {
 
     companion object {
         private const val ARG_KIND = "kind"
         private const val ARG_ARG = "arg"
 
         @JvmStatic
-        fun newIntent(context: Context, kind: TimelineFragment.Kind,
+        fun newIntent(context: Context, kind: com.keylesspalace.tusky.fragment.TimelineFragment.Kind,
                       argument: String?): Intent {
             val intent = Intent(context, ModalTimelineActivity::class.java)
             intent.putExtra(ARG_KIND, kind)
@@ -45,11 +43,11 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasAn
         }
 
         if (supportFragmentManager.findFragmentById(R.id.contentFrame) == null) {
-            val kind = intent?.getSerializableExtra(ARG_KIND) as? TimelineFragment.Kind
-                    ?: TimelineFragment.Kind.HOME
+            val kind = intent?.getSerializableExtra(ARG_KIND) as? com.keylesspalace.tusky.fragment.TimelineFragment.Kind
+                    ?: com.keylesspalace.tusky.fragment.TimelineFragment.Kind.HOME
             val argument = intent?.getStringExtra(ARG_ARG)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument))
+                    .replace(R.id.contentFrame, com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(kind, argument))
                     .commit()
         }
     }

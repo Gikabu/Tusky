@@ -24,7 +24,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
@@ -88,7 +87,7 @@ class StatusViewHelper(private val itemView: View) {
         }
 
 
-        val mediaPreviewUnloaded = ColorDrawable(ThemeUtils.getColor(context, R.attr.colorBackgroundAccent))
+        val mediaPreviewUnloaded = ColorDrawable(com.keylesspalace.tusky.util.ThemeUtils.getColor(context, R.attr.colorBackgroundAccent))
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
@@ -179,7 +178,7 @@ class StatusViewHelper(private val itemView: View) {
                 context.getString(R.string.status_media_hidden_title)
             }
 
-            sensitiveMediaWarning.text = HtmlUtils.fromHtml(hiddenContentText)
+            sensitiveMediaWarning.text = com.keylesspalace.tusky.util.HtmlUtils.fromHtml(hiddenContentText)
 
             sensitiveMediaWarning.visibility = if (showingContent) View.GONE else View.VISIBLE
             sensitiveMediaShow.visibility = if (showingContent) View.VISIBLE else View.GONE
@@ -225,7 +224,7 @@ class StatusViewHelper(private val itemView: View) {
         // Set the icon next to the label.
         val drawableId = getLabelIcon(attachments[0].type)
         val drawable = AppCompatResources.getDrawable(context, drawableId)
-        ThemeUtils.setDrawableTint(context, drawable!!, android.R.attr.textColorTertiary)
+        com.keylesspalace.tusky.util.ThemeUtils.setDrawableTint(context, drawable!!, android.R.attr.textColorTertiary)
         mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
 
         mediaLabel.setOnClickListener { listener.onViewMedia(null, 0) }
@@ -284,7 +283,7 @@ class StatusViewHelper(private val itemView: View) {
             if (useAbsoluteTime) {
                 pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.expiresAt))
             } else {
-                val pollDuration = TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
+                val pollDuration = com.keylesspalace.tusky.util.TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
                 pollDurationInfo = context.getString(R.string.poll_info_time_relative, pollDuration)
             }
         }
@@ -301,7 +300,7 @@ class StatusViewHelper(private val itemView: View) {
                 val percent = calculatePercent(options[i].votesCount, poll.votesCount)
 
                 val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
-                pollResults[i].text = CustomEmojiHelper.emojifyText(pollOptionText, emojis, pollResults[i])
+                pollResults[i].text = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyText(pollOptionText, emojis, pollResults[i])
                 pollResults[i].visibility = View.VISIBLE
 
                 val level = percent * 100

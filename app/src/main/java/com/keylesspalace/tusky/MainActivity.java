@@ -65,7 +65,6 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -347,12 +346,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withCurrentProfileHiddenInList(true)
                 .withOnAccountHeaderListener((view, profile, current) -> handleProfileClick(profile, current))
-                .addProfiles(
-                        new ProfileSettingDrawerItem()
-                                .withIdentifier(DRAWER_ITEM_ADD_ACCOUNT)
-                                .withName(R.string.add_account_name)
-                                .withDescription(R.string.add_account_description)
-                                .withIcon(GoogleMaterial.Icon.gmd_add))
+//                .addProfiles(
+//                        new ProfileSettingDrawerItem()
+//                                .withIdentifier(DRAWER_ITEM_ADD_ACCOUNT)
+//                                .withName(R.string.add_account_name)
+//                                .withDescription(R.string.add_account_description)
+//                                .withIcon(GoogleMaterial.Icon.gmd_add))
                 .build();
 
         headerResult.getView()
@@ -399,10 +398,10 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(R.string.action_access_saved_toot).withSelectable(false).withIcon(R.drawable.ic_notebook).withIconTintingEnabled(true));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SCHEDULED_TOOT).withName(R.string.action_access_scheduled_toot).withSelectable(false).withIcon(R.drawable.ic_access_time).withIconTintingEnabled(true));
         listItems.add(new DividerDrawerItem());
-        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ACCOUNT_SETTINGS).withName(R.string.action_view_account_preferences).withSelectable(false).withIcon(R.drawable.ic_account_settings).withIconTintingEnabled(true));
-        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_SETTINGS).withName(R.string.action_view_preferences).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
-        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(R.string.about_title_activity).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info));
-        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(R.string.action_logout).withSelectable(false).withIcon(R.drawable.ic_logout).withIconTintingEnabled(true));
+//        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ACCOUNT_SETTINGS).withName(R.string.action_view_account_preferences).withSelectable(false).withIcon(R.drawable.ic_account_settings).withIconTintingEnabled(true));
+//        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_SETTINGS).withName(R.string.action_view_preferences).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
+//        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(R.string.about_title_activity).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info));
+//        listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(R.string.action_logout).withSelectable(false).withIcon(R.drawable.ic_logout).withIconTintingEnabled(true));
 
         drawer = new DrawerBuilder()
                 .withActivity(this)

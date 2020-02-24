@@ -64,7 +64,7 @@ import java.util.*
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
-class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
+class ViewMediaActivity : com.keylesspalace.tusky.BaseActivity(), ViewImageFragment.PhotoActionsListener {
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"
         private const val EXTRA_ATTACHMENT_INDEX = "index"
@@ -236,7 +236,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private fun onOpenStatus() {
         val attach = attachments!![viewPager.currentItem]
-        startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl))
+        startActivityWithSlideInAnimation(com.keylesspalace.tusky.ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl))
     }
 
     private fun copyLink() {

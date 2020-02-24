@@ -20,7 +20,6 @@ import androidx.annotation.MainThread
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.PagingRequestHelper
 import com.keylesspalace.tusky.util.createStatusLiveData
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +41,7 @@ class ConversationsBoundaryCallback(
         private val networkPageSize: Int)
     : PagedList.BoundaryCallback<ConversationEntity>() {
 
-    val helper = PagingRequestHelper(ioExecutor)
+    val helper = com.keylesspalace.tusky.util.PagingRequestHelper(ioExecutor)
     val networkState = helper.createStatusLiveData()
 
     /**
@@ -50,7 +49,7 @@ class ConversationsBoundaryCallback(
      */
     @MainThread
     override fun onZeroItemsLoaded() {
-        helper.runIfNotRunning(PagingRequestHelper.RequestType.INITIAL) {
+        helper.runIfNotRunning(com.keylesspalace.tusky.util.PagingRequestHelper.RequestType.INITIAL) {
             mastodonApi.getConversations(null, networkPageSize)
                     .enqueue(createWebserviceCallback(it))
         }
@@ -61,7 +60,7 @@ class ConversationsBoundaryCallback(
      */
     @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: ConversationEntity) {
-        helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
+        helper.runIfNotRunning(com.keylesspalace.tusky.util.PagingRequestHelper.RequestType.AFTER) {
             mastodonApi.getConversations(itemAtEnd.lastStatus.id, networkPageSize)
                     .enqueue(createWebserviceCallback(it))
         }
@@ -73,7 +72,7 @@ class ConversationsBoundaryCallback(
      */
     private fun insertItemsIntoDb(
             response: Response<List<Conversation>>,
-            it: PagingRequestHelper.Request.Callback) {
+            it: com.keylesspalace.tusky.util.PagingRequestHelper.Request.Callback) {
         ioExecutor.execute {
             handleResponse(accountId, response.body())
             it.recordSuccess()
@@ -84,7 +83,7 @@ class ConversationsBoundaryCallback(
         // ignored, since we only ever append to what's in the DB
     }
 
-    private fun createWebserviceCallback(it: PagingRequestHelper.Request.Callback): Callback<List<Conversation>> {
+    private fun createWebserviceCallback(it: com.keylesspalace.tusky.util.PagingRequestHelper.Request.Callback): Callback<List<Conversation>> {
         return object : Callback<List<Conversation>> {
             override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
                 it.recordFailure(t)

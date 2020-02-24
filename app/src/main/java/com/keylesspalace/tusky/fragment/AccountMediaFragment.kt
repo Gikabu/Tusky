@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.SquareImageView
@@ -53,7 +52,7 @@ import javax.inject.Inject
  * Fragment with multiple columns of media previews for the specified account.
  */
 
-class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
+class AccountMediaFragment : com.keylesspalace.tusky.fragment.BaseFragment(), RefreshableFragment, Injectable {
     companion object {
         @JvmStatic
         fun newInstance(accountId: String, enableSwipeToRefresh:Boolean=true): AccountMediaFragment {
@@ -178,7 +177,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
         val layoutManager = GridLayoutManager(view.context, columnCount)
 
-        adapter.baseItemColor =  ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
+        adapter.baseItemColor =  com.keylesspalace.tusky.util.ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -188,7 +187,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
                 refresh()
             }
             swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
+            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(com.keylesspalace.tusky.util.ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
         }
         statusView.visibility = View.GONE
 

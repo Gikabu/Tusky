@@ -260,7 +260,7 @@ class EditProfileViewModel  @Inject constructor(
         }
 
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        IOUtils.closeQuietly(outputStream)
+        com.keylesspalace.tusky.util.IOUtils.closeQuietly(outputStream)
 
         return true
     }

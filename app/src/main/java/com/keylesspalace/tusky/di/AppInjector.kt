@@ -32,7 +32,7 @@ import dagger.android.support.AndroidSupportInjection
  */
 
 object AppInjector {
-    fun init(app: TuskyApplication) {
+    fun init(app: com.keylesspalace.tusky.TuskyApplication) {
         DaggerAppComponent.builder().application(app)
                 .build().inject(app)
 

@@ -33,7 +33,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.components.report.adapter.AdapterHandler
@@ -44,7 +43,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -110,7 +108,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
     private fun setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(com.keylesspalace.tusky.util.ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
 
         swipeRefreshLayout.setOnRefreshListener {
             snackbarErrorRetry?.dismiss()
@@ -205,7 +203,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
 
-    override fun onViewTag(tag: String) = startActivity(ViewTagActivity.getIntent(requireContext(), tag))
+    override fun onViewTag(tag: String) = startActivity(com.keylesspalace.tusky.ViewTagActivity.getIntent(requireContext(), tag))
 
     override fun onViewUrl(url: String?) = viewModel.checkClickedUrl(url)
 

@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 public final class ViewDataUtils {
     @Nullable
-    public static StatusViewData.Concrete statusToViewData(@Nullable Status status,
+    public static StatusViewData.Concrete statusToViewData(@Nullable com.keylesspalace.tusky.entity.Status status,
                                                            boolean alwaysShowSensitiveMedia,
                                                            boolean alwaysOpenSpoiler) {
         if (status == null) return null;

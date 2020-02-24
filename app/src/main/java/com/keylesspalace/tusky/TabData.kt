@@ -40,13 +40,13 @@ data class TabData(val id: String,
 
 fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
     return when (id) {
-        HOME -> TabData(HOME, R.string.title_home, R.drawable.ic_home_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.HOME) })
-        NOTIFICATIONS -> TabData(NOTIFICATIONS, R.string.title_notifications, R.drawable.ic_notifications_24dp, { NotificationsFragment.newInstance() })
-        LOCAL -> TabData(LOCAL, R.string.title_public_local, R.drawable.ic_local_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_LOCAL) })
-        FEDERATED -> TabData(FEDERATED, R.string.title_public_federated, R.drawable.ic_public_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED) })
+        HOME -> TabData(HOME, R.string.title_home, R.drawable.ic_home_24dp, { com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(com.keylesspalace.tusky.fragment.TimelineFragment.Kind.HOME) })
+        NOTIFICATIONS -> TabData(NOTIFICATIONS, R.string.title_notifications, R.drawable.ic_notifications_24dp, { com.keylesspalace.tusky.fragment.NotificationsFragment.newInstance() })
+        LOCAL -> TabData(LOCAL, R.string.title_public_local, R.drawable.ic_local_24dp, { com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(com.keylesspalace.tusky.fragment.TimelineFragment.Kind.PUBLIC_LOCAL) })
+        FEDERATED -> TabData(FEDERATED, R.string.title_public_federated, R.drawable.ic_public_24dp, { com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(com.keylesspalace.tusky.fragment.TimelineFragment.Kind.PUBLIC_FEDERATED) })
         DIRECT -> TabData(DIRECT, R.string.title_direct_messages, R.drawable.ic_reblog_direct_24dp, { ConversationsFragment.newInstance() })
-        HASHTAG -> TabData(HASHTAG, R.string.hashtag, R.drawable.ic_hashtag, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.TAG, args.getOrNull(0).orEmpty()) }, arguments)
-        LIST -> TabData(LIST, R.string.list, R.drawable.ic_list, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) }, arguments)
+        HASHTAG -> TabData(HASHTAG, R.string.hashtag, R.drawable.ic_hashtag, { args -> com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(com.keylesspalace.tusky.fragment.TimelineFragment.Kind.TAG, args.getOrNull(0).orEmpty()) }, arguments)
+        LIST -> TabData(LIST, R.string.list, R.drawable.ic_list, { args -> com.keylesspalace.tusky.fragment.TimelineFragment.newInstance(com.keylesspalace.tusky.fragment.TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) }, arguments)
         else -> throw IllegalArgumentException("unknown tab type")
     }
 }

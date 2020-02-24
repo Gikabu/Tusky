@@ -55,8 +55,6 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.interfaces.ActionButtonActivity
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
@@ -69,7 +67,7 @@ import java.text.NumberFormat
 import javax.inject.Inject
 import kotlin.math.abs
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, LinkListener {
+class AccountActivity : BottomSheetActivity(), com.keylesspalace.tusky.interfaces.ActionButtonActivity, HasAndroidInjector, com.keylesspalace.tusky.interfaces.LinkListener {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -141,9 +139,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
+        toolbarColor = com.keylesspalace.tusky.util.ThemeUtils.getColor(this, R.attr.colorSurface)
         statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
-        statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
+        statusBarColorOpaque = com.keylesspalace.tusky.util.ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }
@@ -355,7 +353,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
         swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeToRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(this,
+        swipeToRefreshLayout.setProgressBackgroundColorSchemeColor(com.keylesspalace.tusky.util.ThemeUtils.getColor(this,
                 android.R.attr.colorBackground))
     }
 
@@ -364,10 +362,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val usernameFormatted = getString(R.string.status_username_format, account.username)
         accountUsernameTextView.text = usernameFormatted
-        accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
+        accountDisplayNameTextView.text = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
 
-        val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
-        LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
+        val emojifiedNote = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
+        com.keylesspalace.tusky.util.LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
        // accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
@@ -427,7 +425,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun updateToolbar() {
         loadedAccount?.let { account ->
 
-            val emojifiedName = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountToolbar)
+            val emojifiedName = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyString(account.name, account.emojis, accountToolbar)
 
             try {
                 supportActionBar?.title = EmojiCompat.get().process(emojifiedName)
@@ -462,7 +460,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             // this is necessary because API 19 can't handle vector compound drawables
             val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
-            val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            val textColor = com.keylesspalace.tusky.util.ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
             movedIcon?.colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
 
             accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
@@ -478,7 +476,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             if (account.isRemote()) {
                 accountRemoveView.show()
                 accountRemoveView.setOnClickListener {
-                    LinkHelper.openLink(account.url, this)
+                    com.keylesspalace.tusky.util.LinkHelper.openLink(account.url, this)
                 }
             }
         }
@@ -625,7 +623,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             if (loadedAccount != null) {
                 val muteDomain = menu.findItem(R.id.action_mute_domain)
-                domain = LinkHelper.getDomain(loadedAccount?.url)
+                domain = com.keylesspalace.tusky.util.LinkHelper.getDomain(loadedAccount?.url)
                 if (domain.isEmpty()) {
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
@@ -692,7 +690,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     override fun onViewTag(tag: String) {
-        val intent = Intent(this, ViewTagActivity::class.java)
+        val intent = Intent(this, com.keylesspalace.tusky.ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
         startActivityWithSlideInAnimation(intent)
     }
@@ -720,7 +718,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
-                    LinkHelper.openLink(loadedAccount?.url, this)
+                    com.keylesspalace.tusky.util.LinkHelper.openLink(loadedAccount?.url, this)
                 }
                 return true
             }

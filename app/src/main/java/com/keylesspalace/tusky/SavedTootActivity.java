@@ -51,7 +51,6 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-import static com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
@@ -163,7 +162,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         List<String> jsonUrls = gson.fromJson(item.getUrls(), stringListType);
         List<String> descriptions = gson.fromJson(item.getDescriptions(), stringListType);
 
-        ComposeOptions composeOptions = new ComposeOptions(
+        ComposeActivity.ComposeOptions composeOptions = new ComposeActivity.ComposeOptions(
                 item.getUid(),
                 item.getText(),
                 jsonUrls,

@@ -207,7 +207,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
 
             fun bind(account: Account) {
-                displayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, displayNameTextView)
+                displayNameTextView.text = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyString(account.name, account.emojis, displayNameTextView)
                 usernameTextView.text = account.username
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
             }
@@ -250,7 +250,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             override val containerView = itemView
 
             fun bind(account: Account, inAList: Boolean) {
-                displayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, displayNameTextView)
+                displayNameTextView.text = com.keylesspalace.tusky.util.CustomEmojiHelper.emojifyString(account.name, account.emojis, displayNameTextView)
                 usernameTextView.text = account.username
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
 

@@ -26,14 +26,13 @@ import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.fragment.preference.*
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener,
+class PreferencesActivity : com.keylesspalace.tusky.BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener,
         HasAndroidInjector {
 
     @Inject
@@ -120,9 +119,9 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "appTheme" -> {
-                val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+                val theme = sharedPreferences.getNonNullString("appTheme", com.keylesspalace.tusky.util.ThemeUtils.APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
-                ThemeUtils.setAppNightMode(theme)
+                com.keylesspalace.tusky.util.ThemeUtils.setAppNightMode(theme)
 
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
@@ -157,7 +156,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
          * is hijack the back button press and use it to launch a new MainActivity and clear the
          * back stack. */
         if (restartActivitiesOnExit) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, com.keylesspalace.tusky.MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivityWithSlideInAnimation(intent)
         } else {

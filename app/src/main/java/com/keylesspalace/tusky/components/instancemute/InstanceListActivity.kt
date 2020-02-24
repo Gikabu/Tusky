@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.components.instancemute
 
 import android.os.Bundle
 import android.view.MenuItem
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
 import dagger.android.DispatchingAndroidInjector
@@ -10,7 +9,7 @@ import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.toolbar_basic.*
 
-class InstanceListActivity: BaseActivity(), HasAndroidInjector {
+class InstanceListActivity: com.keylesspalace.tusky.BaseActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>

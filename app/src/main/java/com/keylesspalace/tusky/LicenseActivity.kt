@@ -29,7 +29,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
-class LicenseActivity : BaseActivity() {
+class LicenseActivity : com.keylesspalace.tusky.BaseActivity() {
 
     @ContainerOptions(cache = CacheImplementation.NO_CACHE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +75,7 @@ class LicenseActivity : BaseActivity() {
             Log.w("LicenseActivity", e)
         }
 
-        IOUtils.closeQuietly(br)
+        com.keylesspalace.tusky.util.IOUtils.closeQuietly(br)
 
         textView.text = sb.toString()
 

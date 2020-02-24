@@ -20,7 +20,6 @@ import android.os.Parcelable
 import android.text.Spanned
 
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.util.HtmlUtils
 import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.WriteWith
@@ -108,9 +107,9 @@ data class StringField (
 ): Parcelable
 
 object SpannedParceler : Parceler<Spanned> {
-    override fun create(parcel: Parcel): Spanned = HtmlUtils.fromHtml(parcel.readString())
+    override fun create(parcel: Parcel): Spanned = com.keylesspalace.tusky.util.HtmlUtils.fromHtml(parcel.readString())
 
     override fun Spanned.write(parcel: Parcel, flags: Int) {
-        parcel.writeString(HtmlUtils.toHtml(this))
+        parcel.writeString(com.keylesspalace.tusky.util.HtmlUtils.toHtml(this))
     }
 }

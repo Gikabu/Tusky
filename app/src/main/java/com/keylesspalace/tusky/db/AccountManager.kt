@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.entity.Status
 
 private const val TAG = "AccountManager"
 
-class AccountManager(db: AppDatabase) {
+class AccountManager(db: com.keylesspalace.tusky.db.AppDatabase) {
 
     @Volatile
     var activeAccount: AccountEntity? = null

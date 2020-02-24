@@ -19,13 +19,11 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.SaveTootHelper
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
@@ -45,10 +43,10 @@ class SendTootService : Service(), Injectable {
     @Inject
     lateinit var eventHub: EventHub
     @Inject
-    lateinit var database: AppDatabase
+    lateinit var database: com.keylesspalace.tusky.db.AppDatabase
 
     @Inject
-    lateinit var saveTootHelper: SaveTootHelper
+    lateinit var saveTootHelper: com.keylesspalace.tusky.util.SaveTootHelper
 
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()

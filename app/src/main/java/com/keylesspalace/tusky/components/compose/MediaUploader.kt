@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.util.*
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -164,7 +163,7 @@ class MediaUploaderImpl(
 
 
             var lastProgress = -1
-            val fileBody = ProgressRequestBody(stream, media.mediaSize,
+            val fileBody = com.keylesspalace.tusky.network.ProgressRequestBody(stream, media.mediaSize,
                     mimeType.toMediaTypeOrNull()) { percentage ->
                 if (percentage != lastProgress) {
                     emitter.onNext(UploadEvent.ProgressEvent(percentage))
@@ -189,7 +188,7 @@ class MediaUploaderImpl(
 
     private fun downsize(media: QueuedMedia): QueuedMedia {
         val file = createNewImageFile(context)
-        DownsizeImageTask.resize(arrayOf(media.uri),
+        com.keylesspalace.tusky.components.compose.DownsizeImageTask.resize(arrayOf(media.uri),
                 STATUS_IMAGE_SIZE_LIMIT, context.contentResolver, file)
         return media.copy(uri = file.toUri(), mediaSize = file.length())
     }

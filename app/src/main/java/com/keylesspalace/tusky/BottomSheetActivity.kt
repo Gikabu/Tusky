@@ -24,7 +24,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.LinkHelper
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,7 +36,7 @@ import javax.inject.Inject
  *  Subclasses must have a bottom sheet with Id item_status_bottom_sheet in their layout hierachy
  */
 
-abstract class BottomSheetActivity : BaseActivity() {
+abstract class BottomSheetActivity : com.keylesspalace.tusky.BaseActivity() {
 
     lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
     var searchUrl: String? = null
@@ -102,7 +101,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     open fun viewThread(statusId: String, url: String?) {
         if (!isSearching()) {
-            val intent = Intent(this, ViewThreadActivity::class.java)
+            val intent = Intent(this, com.keylesspalace.tusky.ViewThreadActivity::class.java)
             intent.putExtra("id", statusId)
             intent.putExtra("url", url)
             startActivityWithSlideInAnimation(intent)
@@ -156,7 +155,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     @VisibleForTesting
     open fun openLink(url: String) {
-        LinkHelper.openLink(url, this)
+        com.keylesspalace.tusky.util.LinkHelper.openLink(url, this)
     }
 
     private fun showQuerySheet() {

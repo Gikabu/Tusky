@@ -12,7 +12,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.*
-import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -35,12 +34,12 @@ class SearchViewModel @Inject constructor(
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
     val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
-    private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
+    private val statusesRepository = SearchRepository<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>(mastodonApi)
     private val accountsRepository = SearchRepository<Account>(mastodonApi)
     private val hashtagsRepository = SearchRepository<HashTag>(mastodonApi)
 
-    private val repoResultStatus = MutableLiveData<Listing<Pair<Status, StatusViewData.Concrete>>>()
-    val statuses: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>> = repoResultStatus.switchMap { it.pagedList }
+    private val repoResultStatus = MutableLiveData<Listing<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>>()
+    val statuses: LiveData<PagedList<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>> = repoResultStatus.switchMap { it.pagedList }
     val networkStateStatus: LiveData<NetworkState> = repoResultStatus.switchMap { it.networkState }
     val networkStateStatusRefresh: LiveData<NetworkState> = repoResultStatus.switchMap { it.refreshState }
 
@@ -54,11 +53,11 @@ class SearchViewModel @Inject constructor(
     val networkStateHashTag: LiveData<NetworkState> = repoResultHashTag.switchMap { it.networkState }
     val networkStateHashTagRefresh: LiveData<NetworkState> = repoResultHashTag.switchMap { it.refreshState }
 
-    private val loadedStatuses = ArrayList<Pair<Status, StatusViewData.Concrete>>()
+    private val loadedStatuses = ArrayList<Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>>()
     fun search(query: String) {
         loadedStatuses.clear()
         repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables, initialItems = loadedStatuses) {
-            it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
+            it?.statuses?.map { status -> Pair(status, com.keylesspalace.tusky.util.ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
                     .orEmpty()
                     .apply {
                         loadedStatuses.addAll(this)
@@ -75,7 +74,7 @@ class SearchViewModel @Inject constructor(
 
     }
 
-    fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
+    fun removeItem(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>) {
         timelineCases.delete(status.first.id)
                 .subscribe({
                     if (loadedStatuses.remove(status))
@@ -87,16 +86,16 @@ class SearchViewModel @Inject constructor(
 
     }
 
-    fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {
+    fun expandedChange(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, expanded: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsExpanded(expanded).createStatusViewData())
+            val newPair = Pair(status.first, com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second).setIsExpanded(expanded).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
     }
 
-    fun reblog(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
+    fun reblog(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, reblog: Boolean) {
         timelineCases.reblog(status.first, reblog)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -106,37 +105,37 @@ class SearchViewModel @Inject constructor(
                 .autoDispose()
     }
 
-    private fun setRebloggedForStatus(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
+    private fun setRebloggedForStatus(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, reblog: Boolean) {
         status.first.reblogged = reblog
         status.first.reblog?.reblogged = reblog
 
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setReblogged(reblog).createStatusViewData())
+            val newPair = Pair(status.first, com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second).setReblogged(reblog).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
     }
 
-    fun contentHiddenChange(status: Pair<Status, StatusViewData.Concrete>, isShowing: Boolean) {
+    fun contentHiddenChange(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, isShowing: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsShowingSensitiveContent(isShowing).createStatusViewData())
+            val newPair = Pair(status.first, com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second).setIsShowingSensitiveContent(isShowing).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
     }
 
-    fun collapsedChange(status: Pair<Status, StatusViewData.Concrete>, collapsed: Boolean) {
+    fun collapsedChange(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, collapsed: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setCollapsed(collapsed).createStatusViewData())
+            val newPair = Pair(status.first, com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second).setCollapsed(collapsed).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
     }
 
-    fun voteInPoll(status: Pair<Status, StatusViewData.Concrete>, choices: MutableList<Int>) {
+    fun voteInPoll(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, choices: MutableList<Int>) {
         val votedPoll = status.first.actionableStatus.poll!!.votedCopy(choices)
         updateStatus(status, votedPoll)
         timelineCases.voteInPoll(status.first, choices)
@@ -151,11 +150,11 @@ class SearchViewModel @Inject constructor(
                 .autoDispose()
     }
 
-    private fun updateStatus(status: Pair<Status, StatusViewData.Concrete>, newPoll: Poll) {
+    private fun updateStatus(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, newPoll: Poll) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
 
-            val newViewData = StatusViewData.Builder(status.second)
+            val newViewData = com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second)
                     .setPoll(newPoll)
                     .createStatusViewData()
             loadedStatuses[idx] = Pair(status.first, newViewData)
@@ -163,10 +162,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun favorite(status: Pair<Status, StatusViewData.Concrete>, isFavorited: Boolean) {
+    fun favorite(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, isFavorited: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isFavorited).createStatusViewData())
+            val newPair = Pair(status.first, com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second).setFavourited(isFavorited).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
@@ -176,10 +175,10 @@ class SearchViewModel @Inject constructor(
                 .autoDispose()
     }
 
-    fun bookmark(status: Pair<Status, StatusViewData.Concrete>, isBookmarked: Boolean) {
+    fun bookmark(status: Pair<Status, com.keylesspalace.tusky.viewdata.StatusViewData.Concrete>, isBookmarked: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setBookmarked(isBookmarked).createStatusViewData())
+            val newPair = Pair(status.first, com.keylesspalace.tusky.viewdata.StatusViewData.Builder(status.second).setBookmarked(isBookmarked).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }

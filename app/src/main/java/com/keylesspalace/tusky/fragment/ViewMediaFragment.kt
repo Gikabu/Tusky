@@ -23,7 +23,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.visible
 
-abstract class ViewMediaFragment : BaseFragment() {
+abstract class ViewMediaFragment : com.keylesspalace.tusky.fragment.BaseFragment() {
     private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
 
     abstract fun setupMediaView(url: String, previewUrl: String?)
