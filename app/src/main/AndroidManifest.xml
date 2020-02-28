@@ -12,12 +12,7 @@
         android:maxSdkVersion="22" /> <!-- for day/night mode -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <application
-        android:name="com.keylesspalace.tusky.TuskyApplication"
-        android:allowBackup="false"
-        android:supportsRtl="true"
-        android:theme="@style/TuskyTheme"
-        android:usesCleartextTraffic="false">
+    <application>
         <activity
             android:name="com.keylesspalace.tusky.SplashActivity"
             android:theme="@style/SplashTheme">
