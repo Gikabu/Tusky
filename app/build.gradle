@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -17,7 +17,7 @@ def getGitSha = {
 android {
     compileSdkVersion 28
     defaultConfig {
-//        applicationId APP_ID
+        applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 69
@@ -40,9 +40,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-//            shrinkResources true
-//            proguardFiles 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles 'proguard-rules.pro'
         }
         debug {}
     }
@@ -51,8 +51,8 @@ android {
     productFlavors {
         blue {}
         green {
-//            applicationIdSuffix ".test"
-//            versionNameSuffix "-" + getGitSha()
+            applicationIdSuffix ".test"
+            versionNameSuffix "-" + getGitSha()
         }
     }
 
@@ -81,12 +81,12 @@ android {
         exclude 'LICENSE_OFL'
         exclude 'LICENSE_UNICODE'
     }
-//    bundle {
-//        language {
-//            // bundle all languages in every apk so the dynamic language switching works
-//            enableSplit = false
-//        }
-//    }
+    bundle {
+        language {
+            // bundle all languages in every apk so the dynamic language switching works
+            enableSplit = false
+        }
+    }
 }
 
 project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
