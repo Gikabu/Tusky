@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.HashtagViewHolder
 import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchHashtagsAdapter(private val linkListener: com.keylesspalace.tusky.interfaces.LinkListener)
     : PagedListAdapter<HashTag, RecyclerView.ViewHolder>(HASHTAG_COMPARATOR) {

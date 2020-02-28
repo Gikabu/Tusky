@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.di
 
 import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.repository.TimelineRepository
 import com.keylesspalace.tusky.repository.TimelineRepositoryImpl

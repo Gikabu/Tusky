@@ -19,8 +19,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
-import com.keylesspalace.tusky.fragment.NotificationsFragment
-import com.keylesspalace.tusky.fragment.TimelineFragment
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
 

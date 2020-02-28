@@ -118,19 +118,16 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasAndroi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-            case R.id.action_open_in_web: {
-                LinkHelper.openLink(getIntent().getStringExtra(URL_EXTRA), this);
-                return true;
-            }
-            case R.id.action_reveal: {
-                fragment.onRevealPressed();
-                return true;
-            }
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (itemId == R.id.action_open_in_web) {
+            LinkHelper.openLink(getIntent().getStringExtra(URL_EXTRA), this);
+            return true;
+        } else if (itemId == R.id.action_reveal) {
+            fragment.onRevealPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

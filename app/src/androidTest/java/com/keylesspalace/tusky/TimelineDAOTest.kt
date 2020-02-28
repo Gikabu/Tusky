@@ -16,12 +16,12 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TimelineDAOTest {
     private lateinit var timelineDao: TimelineDao
-    private lateinit var db: AppDatabase
+    private lateinit var db: com.keylesspalace.tusky.db.AppDatabase
 
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+        db = Room.inMemoryDatabaseBuilder(context, com.keylesspalace.tusky.db.AppDatabase::class.java).build()
         timelineDao = db.timelineDao()
     }
 

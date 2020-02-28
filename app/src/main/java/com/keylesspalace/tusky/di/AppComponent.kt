@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.di
 
-import com.keylesspalace.tusky.TuskyApplication
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule

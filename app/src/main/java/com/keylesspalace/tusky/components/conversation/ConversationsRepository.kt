@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
 import androidx.paging.toLiveData
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Listing

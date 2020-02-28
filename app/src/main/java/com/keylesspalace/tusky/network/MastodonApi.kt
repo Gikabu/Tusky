@@ -395,13 +395,22 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("oauth/token")
-    fun fetchOAuthToken(
+    fun fetchOAuthToken2(
             @Header(DOMAIN_HEADER) domain: String,
             @Field("client_id") clientId: String,
             @Field("client_secret") clientSecret: String,
             @Field("redirect_uri") redirectUri: String,
             @Field("code") code: String,
             @Field("grant_type") grantType: String
+    ): Call<AccessToken>
+
+    @FormUrlEncoded
+    @POST("oauth/token")
+    fun fetchOAuthToken(
+            @Header(DOMAIN_HEADER) domain: String,
+            @Field("grant_type") grantType: String,
+            @Field("username") username: String,
+            @Field("password") password: String
     ): Call<AccessToken>
 
     @FormUrlEncoded

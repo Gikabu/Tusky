@@ -30,7 +30,7 @@ class VersionUtilsTest(
 
     @Test
     fun testVersionUtils() {
-        assertEquals(VersionUtils(versionString).supportsScheduledToots(), supportsScheduledToots)
+        assertEquals(com.keylesspalace.tusky.util.VersionUtils(versionString).supportsScheduledToots(), supportsScheduledToots)
     }
 
 }

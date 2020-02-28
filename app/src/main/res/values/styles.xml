@@ -45,7 +45,7 @@
         <item name="colorPrimary">@color/tusky_blue</item>
         <item name="colorOnPrimary">@color/white</item>
 
-        <item name="colorSecondary">@color/tusky_blue</item>
+        <item name="colorSecondary">#039BE5</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <item name="colorSurface">@color/colorSurface</item>

@@ -11,7 +11,6 @@ import android.text.util.Linkify
 import android.view.MenuItem
 import android.widget.TextView
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.util.CustomURLSpan
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.toolbar_basic.*

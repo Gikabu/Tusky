@@ -7,7 +7,6 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.nhaarman.mockitokotlin2.mock
 import okhttp3.Request
@@ -240,7 +239,7 @@ class FakeActivity: BottomSheetActivity() {
     }
 }
 
-class FakeFragment: SFragment() {
+class FakeFragment: com.keylesspalace.tusky.fragment.SFragment() {
     override fun removeItem(position: Int) {
     }
 

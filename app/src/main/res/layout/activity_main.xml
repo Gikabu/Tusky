@@ -49,6 +49,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/action_compose"
         app:layout_anchor="@id/pager"
+        app:backgroundTint="@color/tusky_blue"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_create_24dp" />
 

@@ -6,7 +6,7 @@
     <PreferenceCategory android:title="@string/pref_title_appearance_settings">
 
         <ListPreference
-            android:defaultValue="night"
+            android:defaultValue="@string/app_theme_light"
             android:entries="@array/app_theme_names"
             android:entryValues="@array/app_theme_values"
             android:key="appTheme"
@@ -55,7 +55,7 @@
             app:singleLineTitle="false" />
 
         <SwitchPreferenceCompat
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="animateGifAvatars"
             android:title="@string/pref_title_animate_gif_avatars"
             app:singleLineTitle="false" />

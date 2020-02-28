@@ -20,7 +20,6 @@ import androidx.annotation.RawRes
 import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
-import com.keylesspalace.tusky.util.IOUtils
 import kotlinx.android.extensions.CacheImplementation
 import kotlinx.android.extensions.ContainerOptions
 import kotlinx.android.synthetic.main.activity_license.*

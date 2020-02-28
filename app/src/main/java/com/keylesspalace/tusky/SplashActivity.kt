@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -35,11 +34,6 @@ class SplashActivity : AppCompatActivity(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val accessToken = "STtr3NKLB3b9a97uPonpaXYP3uwAcnrXZ8V4Xt2p5Bc"
-        val clientSecret = "ao_dCIBh6znvXSbKGJLo_sk5J6T6_icdGJW4DSAYoos"
-        val clientID = "mev6-7TvF5cK8X-Q3Z5zVnS9-1E538EZuB4AWxC_ymo"
-        val domain = "mastodon.social"
-
         val action = intent.action
         val data = intent.data
 
@@ -56,20 +50,7 @@ class SplashActivity : AppCompatActivity(), Injectable {
                 Intent(this, com.keylesspalace.tusky.MainActivity::class.java)
             }
         } else {
-            preferences = getSharedPreferences(
-                    getString(R.string.preferences_file_key), Context.MODE_PRIVATE)
-
-            preferences.edit()
-                    .putString("domain", domain)
-                    .putString("clientId", clientID)
-                    .putString("clientSecret", clientSecret)
-                    .apply()
-
-            accountManager.addAccount(accessToken, domain)
-
-            Intent(this, com.keylesspalace.tusky.MainActivity::class.java)
-
-//            LoginActivity.getIntent(this, false)
+            LoginActivity.getIntent(this, false)
         }
         startActivity(intent1)
         finish()

@@ -4,7 +4,6 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.keylesspalace.tusky.db.AppDatabase
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +18,7 @@ class MigrationsTest {
     @Rule
     var helper: MigrationTestHelper = MigrationTestHelper(
             InstrumentationRegistry.getInstrumentation(),
-            AppDatabase::class.java.canonicalName,
+            com.keylesspalace.tusky.db.AppDatabase::class.java.canonicalName,
             FrameworkSQLiteOpenHelperFactory()
     )
 
@@ -50,7 +49,7 @@ class MigrationsTest {
 
         db.close()
 
-        val newDb = helper.runMigrationsAndValidate(TEST_DB, 11, true, AppDatabase.MIGRATION_10_11)
+        val newDb = helper.runMigrationsAndValidate(TEST_DB, 11, true, com.keylesspalace.tusky.db.AppDatabase.MIGRATION_10_11)
 
         val cursor = newDb.query("SELECT * FROM AccountEntity")
         cursor.moveToFirst()

@@ -23,7 +23,6 @@ import android.widget.ArrayAdapter
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.util.CustomEmojiHelper
 import com.keylesspalace.tusky.util.loadAvatar
 import kotlinx.android.synthetic.main.item_autocomplete_account.view.*
 

@@ -78,8 +78,6 @@ class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
         preferences = getSharedPreferences(
                 getString(R.string.preferences_file_key), Context.MODE_PRIVATE)
 
-        loginButton.setOnClickListener { onButtonClick() }
-
         whatsAnInstanceTextView.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
                     .setMessage(R.string.dialog_whats_an_instance)
@@ -96,7 +94,8 @@ class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
         } else {
             toolbar.visibility = View.GONE
         }
-
+        setLoading(true)
+        onLaunch()
     }
 
     override fun requiresLogin(): Boolean {
@@ -123,7 +122,7 @@ class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
      * app is run on a given server instance. So, after the first authentication, they are
      * saved in SharedPreferences and every subsequent run they are simply fetched from there.
      */
-    private fun onButtonClick() {
+    private fun onLaunch() {
 
         loginButton.isEnabled = false
 
@@ -180,7 +179,7 @@ class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
 
         mastodonApi
                 .authenticateApp(domain, getString(R.string.app_name), oauthRedirectUri,
-                        OAUTH_SCOPES, getString(R.string.tusky_website))
+                        OAUTH_SCOPES, getString(R.string.lunna_website))
                 .enqueue(callback)
         setLoading(true)
 
@@ -189,24 +188,48 @@ class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
     private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * login there, and the server will redirect back to the app with its response. */
-        val endpoint = MastodonApi.ENDPOINT_AUTHORIZE
-        val parameters = mapOf(
-                "client_id" to clientId,
-                "redirect_uri" to oauthRedirectUri,
-                "response_type" to "code",
-                "scope" to OAUTH_SCOPES
-        )
-        val url = "https://" + domain + endpoint + "?" + toQueryString(parameters)
-        val uri = Uri.parse(url)
-        if (!openInCustomTab(uri, this)) {
-            val viewIntent = Intent(Intent.ACTION_VIEW, uri)
-            if (viewIntent.resolveActivity(packageManager) != null) {
-                startActivity(viewIntent)
-            } else {
-                domainEditText.error = getString(R.string.error_no_web_browser_found)
+//        val endpoint = MastodonApi.ENDPOINT_AUTHORIZE
+//        val parameters = mapOf(
+//                "client_id" to clientId,
+//                "redirect_uri" to oauthRedirectUri,
+//                "response_type" to "code",
+//                "scope" to OAUTH_SCOPES
+//        )
+//        val url = "https://" + domain + endpoint + "?" + toQueryString(parameters)
+//        val uri = Uri.parse(url)
+//        if (!openInCustomTab(uri, this)) {
+//            val viewIntent = Intent(Intent.ACTION_VIEW, uri)
+//            if (viewIntent.resolveActivity(packageManager) != null) {
+//                startActivity(viewIntent)
+//            } else {
+//                domainEditText.error = getString(R.string.error_no_web_browser_found)
+//                setLoading(false)
+//            }
+//        }
+
+        val callback = object : Callback<AccessToken> {
+            override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
+                if (response.isSuccessful) {
+                    onLoginSuccess(response.body()!!.accessToken, domain)
+                } else {
+                    setLoading(false)
+                    domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
+                    Log.e(TAG, String.format("%s %s",
+                            getString(R.string.error_retrieving_oauth_token),
+                            response.message()))
+                }
+            }
+
+            override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                 setLoading(false)
+                domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
+                Log.e(TAG, String.format("%s %s",
+                        getString(R.string.error_retrieving_oauth_token),
+                        t.message))
             }
         }
+        mastodonApi.fetchOAuthToken(domain, "password", "gikabuh@gmail.com", "Menubox/92").enqueue(callback)
+
     }
 
     override fun onStart() {
@@ -252,9 +275,10 @@ class LoginActivity : com.keylesspalace.tusky.BaseActivity(), Injectable {
                                 t.message))
                     }
                 }
+                mastodonApi.fetchOAuthToken(domain, "password", "gikabuh@gmail.com", "Menubox/92").enqueue(callback)
 
-                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
-                        "authorization_code").enqueue(callback)
+//                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
+//                        "authorization_code").enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */

@@ -4,7 +4,7 @@ package com.keylesspalace.tusky
  * Created by charlag on 3/7/18.
  */
 
-class FakeTuskyApplication : TuskyApplication() {
+class FakeTuskyApplication : com.keylesspalace.tusky.TuskyApplication() {
 
     private lateinit var locator: ServiceLocator
 

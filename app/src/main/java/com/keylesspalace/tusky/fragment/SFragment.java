@@ -233,82 +233,69 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         openAsItem.setTitle(openAsTitle);
 
         popup.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.status_share_content: {
-                    Status statusToShare = status;
-                    if (statusToShare.getReblog() != null)
-                        statusToShare = statusToShare.getReblog();
+            int itemId = item.getItemId();
+            if (itemId == R.id.status_share_content) {
+                Status statusToShare = status;
+                if (statusToShare.getReblog() != null)
+                    statusToShare = statusToShare.getReblog();
 
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
 
-                    String stringToShare = statusToShare.getAccount().getUsername() +
-                            " - " +
-                            statusToShare.getContent().toString();
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
-                    return true;
-                }
-                case R.id.status_share_link: {
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    String statusBody = StringUtils.substringAfter(statusUrl,"://");
-                    String copiedLink = "https://smoke.chat/" + statusBody;
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, copiedLink);
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
-                    return true;
-                }
-                case R.id.status_copy_link: {
-                    ClipboardManager clipboard = (ClipboardManager)
-                            getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    String statusBody = StringUtils.substringAfter(statusUrl,"://");
-                    String copiedLink = "https://smoke.chat/" + statusBody;
-                    ClipData clip = ClipData.newPlainText(null, copiedLink);
-                    clipboard.setPrimaryClip(clip);
-                    return true;
-                }
-                case R.id.status_open_as: {
-                    showOpenAsDialog(statusUrl, item.getTitle());
-                    return true;
-                }
-                case R.id.status_download_media: {
-                    requestDownloadAllMedia(status);
-                    return true;
-                }
-                case R.id.status_mute: {
-                    timelineCases.mute(accountId);
-                    return true;
-                }
-                case R.id.status_block: {
-                    timelineCases.block(accountId);
-                    return true;
-                }
-                case R.id.status_report: {
-                    openReportPage(accountId, accountUsername, id);
-                    return true;
-                }
-                case R.id.status_unreblog_private: {
-                    onReblog(false, position);
-                    return true;
-                }
-                case R.id.status_reblog_private: {
-                    onReblog(true, position);
-                    return true;
-                }
-                case R.id.status_delete: {
-                    showConfirmDeleteDialog(id, position);
-                    return true;
-                }
-                case R.id.status_delete_and_redraft: {
-                    showConfirmEditDialog(id, position, status);
-                    return true;
-                }
-                case R.id.pin: {
-                    timelineCases.pin(status, !status.isPinned());
-                    return true;
-                }
+                String stringToShare = statusToShare.getAccount().getUsername() +
+                        " - " +
+                        statusToShare.getContent().toString();
+                sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
+                return true;
+            } else if (itemId == R.id.status_share_link) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                String statusBody = StringUtils.substringAfter(statusUrl, "://");
+                String copiedLink = "https://smoke.chat.sdk/" + statusBody;
+                sendIntent.putExtra(Intent.EXTRA_TEXT, copiedLink);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
+                return true;
+            } else if (itemId == R.id.status_copy_link) {
+                ClipboardManager clipboard = (ClipboardManager)
+                        getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                String statusBody = StringUtils.substringAfter(statusUrl, "://");
+                String copiedLink = "https://smoke.chat.sdk/" + statusBody;
+                ClipData clip = ClipData.newPlainText(null, copiedLink);
+                clipboard.setPrimaryClip(clip);
+                return true;
+            } else if (itemId == R.id.status_open_as) {
+                showOpenAsDialog(statusUrl, item.getTitle());
+                return true;
+            } else if (itemId == R.id.status_download_media) {
+                requestDownloadAllMedia(status);
+                return true;
+            } else if (itemId == R.id.status_mute) {
+                timelineCases.mute(accountId);
+                return true;
+            } else if (itemId == R.id.status_block) {
+                timelineCases.block(accountId);
+                return true;
+            } else if (itemId == R.id.status_report) {
+                openReportPage(accountId, accountUsername, id);
+                return true;
+            } else if (itemId == R.id.status_unreblog_private) {
+                onReblog(false, position);
+                return true;
+            } else if (itemId == R.id.status_reblog_private) {
+                onReblog(true, position);
+                return true;
+            } else if (itemId == R.id.status_delete) {
+                showConfirmDeleteDialog(id, position);
+                return true;
+            } else if (itemId == R.id.status_delete_and_redraft) {
+                showConfirmEditDialog(id, position, status);
+                return true;
+            } else if (itemId == R.id.pin) {
+                timelineCases.pin(status, !status.isPinned());
+                return true;
             }
             return false;
         });

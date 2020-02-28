@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
-import com.keylesspalace.tusky.util.SaveTootHelper
 import com.nhaarman.mockitokotlin2.any
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -102,7 +101,7 @@ class ComposeActivityTest {
                 Single.just(InstanceEntity(instanceDomain, emptyList(),null, null, null, null))
         )
 
-        val dbMock = mock(AppDatabase::class.java)
+        val dbMock = mock(com.keylesspalace.tusky.db.AppDatabase::class.java)
         `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
 
         val viewModel = ComposeViewModel(
@@ -110,7 +109,7 @@ class ComposeActivityTest {
                 accountManagerMock,
                 mock(MediaUploader::class.java),
                 mock(ServiceClient::class.java),
-                mock(SaveTootHelper::class.java),
+                mock(com.keylesspalace.tusky.util.SaveTootHelper::class.java),
                 dbMock
         )
 
